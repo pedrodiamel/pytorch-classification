@@ -55,10 +55,11 @@ class NeuralNetClassifier(NeuralNetAbstract):
         num_output_channels, 
         num_input_channels,  
         loss, 
-        lr, 
-        momentum, 
+        lr,          
         optimizer, 
-        lrsch,          
+        lrsch,  
+        momentum=0.9,
+        weight_decay=5e-4,        
         pretrained=False,
         topk=(1,),
         ):
@@ -75,7 +76,9 @@ class NeuralNetClassifier(NeuralNetAbstract):
             lrsch (string): scheduler learning rate
             pretrained (bool)
         """
-        super(NeuralNetClassifier, self).create( arch, num_output_channels, num_input_channels, loss, lr, momentum, optimizer, lrsch, pretrained)
+
+        cfg_opt={ momentum:momentum, weight_decay:weight_decay } 
+        super(NeuralNetClassifier, self).create( arch, num_output_channels, num_input_channels, loss, lr, optimizer, lrsch, pretrained, cfg_opt=cfg_opt)
         self.accuracy = nloss.TopkAccuracy( topk )
         self.cnf = nloss.ConfusionMeter( self.num_output_channels, normalized=True )
         self.visheatmap = gph.HeatMapVisdom( env_name=self.nameproject )
