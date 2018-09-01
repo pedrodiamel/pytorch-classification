@@ -16,7 +16,7 @@ from itertools import islice
 from PIL import Image
 
 from pytvision.datasets.imageutl import dataProvide
-from pytvision.transforms.rectutil import Rect
+from pytvision.transforms.rectutils import Rect
 
 from .utility import download_url, check_integrity
 

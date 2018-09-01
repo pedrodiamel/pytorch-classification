@@ -77,8 +77,23 @@ class NeuralNetClassifier(NeuralNetAbstract):
             pretrained (bool)
         """
 
-        cfg_opt={ momentum:momentum, weight_decay:weight_decay } 
-        super(NeuralNetClassifier, self).create( arch, num_output_channels, num_input_channels, loss, lr, optimizer, lrsch, pretrained, cfg_opt=cfg_opt)
+        cfg_opt= { 'momentum':0.9, 'weight_decay':5e-4 } 
+        cfg_scheduler= { 'step_size':100, 'gamma':0.1  }
+                    
+        super(NeuralNetClassifier, self).create( 
+            arch, 
+            num_output_channels, 
+            num_input_channels, 
+            loss, 
+            lr, 
+            optimizer, 
+            lrsch, 
+            pretrained, 
+            cfg_opt=cfg_opt,
+            cfg_scheduler=cfg_scheduler,
+        )
+        
+        
         self.accuracy = nloss.TopkAccuracy( topk )
         self.cnf = nloss.ConfusionMeter( self.num_output_channels, normalized=True )
         self.visheatmap = gph.HeatMapVisdom( env_name=self.nameproject )
@@ -377,51 +392,7 @@ class NeuralNetClassifier(NeuralNetAbstract):
 
 
 
-    def _create_optimizer(self, optimizer='adam', lr=0.0001, momentum=0.99):
-        """
-        Create optimizer
-        Args:
-            @optimizer (string): select optimizer function
-            @lr (float): learning rate
-            @momentum (float): momentum
-        """
-        
-        self.optimizer = None
 
-        # create optimizer
-        if optimizer == 'adam':
-            self.optimizer = torch.optim.Adam( self.net.parameters(), lr=lr, amsgrad=True )  
-        elif optimizer == 'sgd':
-            self.optimizer = torch.optim.SGD( self.net.parameters(), lr=lr, momentum=0.9, weight_decay=5e-4 ) #momentum=momentum, nesterov=True
-        elif optimizer == 'rprop':
-            self.optimizer = torch.optim.Rprop( self.net.parameters(), lr=lr) 
-        elif optimizer == 'rmsprop':
-            self.optimizer = torch.optim.RMSprop( self.net.parameters(), lr=lr)           
-        else:
-            assert(False)
-
-        self.lr = lr; 
-        self.momentum = momentum
-        self.s_optimizer = optimizer
-
-    def _create_scheduler_lr(self, lrsch ):
-        
-        #MultiStepLR(optimizer, milestones=[30,80], gamma=0.1)
-        #ExponentialLR
-        #CosineAnnealingLR
-
-        self.lrscheduler = None
-
-        if lrsch == 'fixed':
-            pass           
-        elif lrsch == 'step':
-            self.lrscheduler = torch.optim.lr_scheduler.StepLR(self.optimizer, step_size=100, gamma=0.1 )
-        elif lrsch == 'exp':
-            self.lrscheduler = torch.optim.lr_scheduler.ExponentialLR(self.optimizer, gamma=0.99 )
-        elif lrsch == 'plateau':
-            self.lrscheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(self.optimizer, 'min', patience=10 )
-        else:
-            assert(False)
 
 
  
