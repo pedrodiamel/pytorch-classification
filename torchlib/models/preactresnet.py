@@ -85,7 +85,7 @@ class PreActResNet(nn.Module):
             self.in_planes = planes * block.expansion
         return nn.Sequential(*layers)
 
-    def forward(self, x, lam=None, target=None, target_reweighted=None, layer_mix='rand'):
+    def forward(self, x ):
 
         out = x
         out = self.conv1(out)
