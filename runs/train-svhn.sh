@@ -2,14 +2,14 @@
 
 # parameters
 DATA=$HOME/.datasets
-NAMEDATASET='cifar10'
+NAMEDATASET='svhn'
 PROJECT='../out/netruns'
 EPOCHS=2000
-BATCHSIZE=128
+BATCHSIZE=40
 LEARNING_RATE=0.1
 MOMENTUM=0.9
 PRINT_FREQ=100
-WORKERS=10
+WORKERS=1
 RESUME='chk000000.pth.tar'
 GPU=0
 ARCH='preactresnet18'
@@ -20,13 +20,12 @@ SNAPSHOT=5
 NUMCLASS=10
 NUMCHANNELS=3
 IMAGESIZE=32
-EXP_NAME='exp_baseline_'$ARCH'_'$LOSS'_'$OPT'_'$NAMEDATASET'_aug_002'
+EXP_NAME='exp_baseline_'$ARCH'_'$LOSS'_'$OPT'_'$NAMEDATASET'_aug_001'
 
-
-rm -rf $PROJECT/$EXP_NAME/$EXP_NAME.log
-rm -rf $PROJECT/$EXP_NAME/
-mkdir $PROJECT
-mkdir $PROJECT/$EXP_NAME
+#rm -rf $PROJECT/$EXP_NAME/$EXP_NAME.log
+#rm -rf $PROJECT/$EXP_NAME/
+#mkdir $PROJECT
+#mkdir $PROJECT/$EXP_NAME
 
 
 ## execute
@@ -50,7 +49,6 @@ $DATA \
 --num-classes=$NUMCLASS \
 --name-dataset=$NAMEDATASET \
 --channels=$NUMCHANNELS \
---image-size=$IMAGESIZE \
 --finetuning \
 --parallel \
 2>&1 | tee -a $PROJECT/$EXP_NAME/$EXP_NAME.log \

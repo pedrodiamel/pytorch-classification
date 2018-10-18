@@ -62,6 +62,7 @@ class NeuralNetClassifier(NeuralNetAbstract):
         weight_decay=5e-4,        
         pretrained=False,
         topk=(1,),
+        size_input=128,
         ):
         """
         Create
@@ -93,7 +94,7 @@ class NeuralNetClassifier(NeuralNetAbstract):
             cfg_scheduler=cfg_scheduler,
         )
         
-        
+        self.size_input= size_input
         self.accuracy = nloss.TopkAccuracy( topk )
         self.cnf = nloss.ConfusionMeter( self.num_output_channels, normalized=True )
         self.visheatmap = gph.HeatMapVisdom( env_name=self.nameproject )

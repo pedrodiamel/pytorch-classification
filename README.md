@@ -1,7 +1,8 @@
 # Pytorch Classification
 
 ## Training
-
+    
+    cd runs
     bash train-[dataset].sh
 
 ## Installation 
@@ -28,7 +29,7 @@ To use Visdom in the browser:
 | Model             | CIFAR10     | CIFAR100    |
 | ----------------- | ----------- | ----------- |
 | PreActResNet18    | 95.36%      | 77.02%      |
-| PreActResNet34    | 95.72%      |             |
+| PreActResNet34    | 95.72%      | 78.83%      |
 
 
 

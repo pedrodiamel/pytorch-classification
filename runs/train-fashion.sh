@@ -2,7 +2,7 @@
 
 # parameters
 DATA=$HOME/.datasets
-NAMEDATASET='cifar10'
+NAMEDATASET='fashion'
 PROJECT='../out/netruns'
 EPOCHS=2000
 BATCHSIZE=128
@@ -20,8 +20,7 @@ SNAPSHOT=5
 NUMCLASS=10
 NUMCHANNELS=3
 IMAGESIZE=32
-EXP_NAME='exp_baseline_'$ARCH'_'$LOSS'_'$OPT'_'$NAMEDATASET'_aug_002'
-
+EXP_NAME='exp_baseline_'$ARCH'_'$LOSS'_'$OPT'_'$NAMEDATASET'_aug_001'
 
 rm -rf $PROJECT/$EXP_NAME/$EXP_NAME.log
 rm -rf $PROJECT/$EXP_NAME/

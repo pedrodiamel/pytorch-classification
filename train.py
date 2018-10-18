@@ -117,6 +117,7 @@ def main():
         lrsch=args.scheduler,
         pretrained=args.finetuning,
         topk=(1, ),
+        size_input=args.image_size,
         )
     
     cudnn.benchmark = True
@@ -130,17 +131,22 @@ def main():
     print(network)
 
     
-    train_transform = transforms.Compose(
-    [         
-        transforms.RandomCrop(32, padding=4), 
-        transforms.RandomHorizontalFlip(),
-        
-    ])
+    #train_transform = transforms.Compose(
+    #[         
+    #    transforms.RandomCrop( network.size_input , padding=4 ), 
+    #    transforms.RandomHorizontalFlip(),
+    #    
+    #])
     
     # datasets
     # training dataset
     train_data = Dataset(
-        data=FactoryDataset.factory(pathname=args.data, name=args.name_dataset, subset=FactoryDataset.training , transform=train_transform , download=True ),
+        data=FactoryDataset.factory(
+            pathname=args.data, 
+            name=args.name_dataset, 
+            subset=FactoryDataset.training , 
+            #transform=train_transform , 
+            download=True ),
         #count=100000,
         num_channels=network.num_input_channels,
         transform=get_transforms_aug( network.size_input ), #get_transforms_aug
@@ -153,7 +159,11 @@ def main():
     
     # validate dataset
     val_data = Dataset(
-        data=FactoryDataset.factory(pathname=args.data, name=args.name_dataset, subset=FactoryDataset.validation, download=True ),
+        data=FactoryDataset.factory(
+            pathname=args.data, 
+            name=args.name_dataset, 
+            subset=FactoryDataset.validation, 
+            download=True ),
         num_channels=network.num_input_channels,
         transform=get_transforms_det( network.size_input ),
         )
