@@ -94,7 +94,7 @@ class NeuralNetClassifier(NeuralNetAbstract):
             cfg_scheduler=cfg_scheduler,
         )
         
-        self.size_input= size_input
+        self.size_input = size_input
         self.accuracy = nloss.TopkAccuracy( topk )
         self.cnf = nloss.ConfusionMeter( self.num_output_channels, normalized=True )
         self.visheatmap = gph.HeatMapVisdom( env_name=self.nameproject )
