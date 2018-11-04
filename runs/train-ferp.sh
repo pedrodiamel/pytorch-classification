@@ -4,7 +4,7 @@
 DATA=$HOME/.datasets
 NAMEDATASET='ferp'
 PROJECT='../out/netruns'
-EPOCHS=2000
+EPOCHS=1000
 BATCHSIZE=128
 LEARNING_RATE=0.1
 MOMENTUM=0.9
@@ -20,13 +20,12 @@ SNAPSHOT=5
 NUMCLASS=8
 NUMCHANNELS=3
 IMAGESIZE=48
-EXP_NAME='exp_baseline_'$ARCH'_'$LOSS'_'$OPT'_'$NAMEDATASET'_allaug_001'
+EXP_NAME='baseline_'$ARCH'_'$LOSS'_'$OPT'_'$NAMEDATASET'_006'
 
-#rm -rf $PROJECT/$EXP_NAME/$EXP_NAME.log
-#rm -rf $PROJECT/$EXP_NAME/
-#mkdir $PROJECT
-#mkdir $PROJECT/$EXP_NAME
-
+rm -rf $PROJECT/$EXP_NAME/$EXP_NAME.log
+rm -rf $PROJECT/$EXP_NAME/
+mkdir $PROJECT
+mkdir $PROJECT/$EXP_NAME
 
 ## execute
 python ../train.py \
