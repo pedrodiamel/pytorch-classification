@@ -144,8 +144,8 @@ def main():
         data=FactoryDataset.factory(
             pathname=args.data, 
             name=args.name_dataset, 
-            subset=FactoryDataset.training , 
-            #transform=train_transform , 
+            subset=FactoryDataset.training, 
+            #transform=train_transform, 
             download=True ),
         #count=100000,
         num_channels=network.num_input_channels,

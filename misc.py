@@ -36,14 +36,14 @@ def get_transforms_aug( size_input ):
     transforms_aug = transforms.Compose([
         
         #mtrans.ToResize( (size_input, size_input), resize_mode='squash', padding_mode=cv2.BORDER_REPLICATE ) ,
-        mtrans.ToResize( (size_input+10, size_input+10), resize_mode='asp' ) ,
-        mtrans.RandomCrop( (size_input, size_input), limit=5, padding_mode=cv2.BORDER_REPLICATE  ) , 
+        mtrans.ToResize( (size_input+5, size_input+5), resize_mode='square' ) ,
+        mtrans.RandomCrop( (size_input, size_input), limit=2, padding_mode=cv2.BORDER_REPLICATE  ) , 
         
         #------------------------------------------------------------------
         #Geometric 
         
         mtrans.RandomScale(factor=0.2, padding_mode=cv2.BORDER_REPLICATE ), 
-        mtrans.RandomGeometricalTransform( angle=30, translation=0.2, warp=0.02, padding_mode=cv2.BORDER_REPLICATE),
+        mtrans.ToRandomTransform( mtrans.RandomGeometricalTransform( angle=30, translation=0.2, warp=0.02, padding_mode=cv2.BORDER_REPLICATE ), prob=0.5 ),
         mtrans.ToRandomTransform( mtrans.VFlip(), prob=0.5 ),
         #mtrans.ToRandomTransform( mtrans.HFlip(), prob=0.5 ),
         
@@ -55,8 +55,10 @@ def get_transforms_aug( size_input ):
         mtrans.ToRandomTransform( mtrans.RandomContrast( factor=0.15 ), prob=0.50 ),
         mtrans.ToRandomTransform( mtrans.RandomGamma( factor=0.15 ), prob=0.50 ),
         mtrans.ToRandomTransform( mtrans.RandomHueSaturation( hue_shift_limit=(-5, 5), sat_shift_limit=(-11, 11), val_shift_limit=(-11, 11) ), prob=0.30 ),
-        #mtrans.ToRandomTransform( mtrans.ToGrayscale(), prob=0.25 ),
-                
+        mtrans.ToRandomTransform( mtrans.ToNegative(), prob=0.30 ),
+        #mtrans.ToRandomTransform( mtrans.ToGrayscale(), prob=0.30 ),
+        
+        
         #mtrans.ToRandomChoiceTransform( [
         #    mtrans.RandomBrightness( factor=0.15 ), 
         #    mtrans.RandomContrast( factor=0.15 ),
@@ -65,14 +67,16 @@ def get_transforms_aug( size_input ):
         #    mtrans.RandomGamma( factor=0.30  ),            
         #    mtrans.ToRandomTransform(mtrans.ToGrayscale(), prob=0.15 ),
         #    ]),    
-                
-        #mtrans.ToRandomTransform(mtrans.ToGaussianBlur( sigma=0.0001), prob=0.25 ),    
-
+        
+        #mtrans.ToRandomTransform(mtrans.ToGaussianBlur( sigma=0.0001 ), prob=0.25 ),
+        
         #------------------------------------------------------------------
         mtrans.ToTensor(),
         normalize,
+        
         ])    
     return transforms_aug
+
 
 def get_transforms_det(size_input):    
     transforms_det = transforms.Compose([
