@@ -11,6 +11,8 @@ from . import cub2011
 from . import cars196
 from . import stanford_online_products
 from . import afew
+from . import celeba
+from . import ferfolder
 
 
 def create_folder(pathname, name):    
@@ -41,12 +43,20 @@ class FactoryDataset(object):
     jaffe='jaffe'
     bu3dfe='bu3dfe'
     afew='afew'
+    celeba='celeba'
+    ferblack='ferblack'
+    
+    
 
     cub2011='cub2011'
     cars196='cars196'
     stanford_online_products='stanford_online_products'
     cub2011metric='cub2011metric'
     cars196metric='cars196metric'
+
+
+    
+
     
     @classmethod
     def _checksubset(self, subset): 
@@ -119,7 +129,6 @@ class FactoryDataset(object):
             data = cub2011.CUB2011(pathname, train=btrain,  download=download)
             data.labels = np.array( data.targets )  
 
-
         elif name == 'cars196':  
             btrain=(subset=='train')
             pathname = create_folder(pathname, name)         
@@ -176,6 +185,18 @@ class FactoryDataset(object):
             data = afew.Afew(pathname, train=btrain,  download=download)
             data.labels = np.array( data.targets )   
     
+        elif name == 'celeba': 
+            btrain=(subset=='train')
+            pathname = create_folder(pathname, name) 
+            data = celeba.CelebaDataset(pathname, train=btrain, download=download)
+
+            
+        elif name == 'ferblack': 
+            btrain=(subset=='train')
+            pathname = create_folder(pathname, name) 
+            data = ferfolder.FERFolderDataset(pathname, train=btrain, download=download)        
+            data.labels = np.array( data.targets )
+            
 
         # metric learning dataset
 
