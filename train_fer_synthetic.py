@@ -149,7 +149,7 @@ def main():
         iluminate=True, angle=45, translation=0.3, warp=0.3, factor=0.35,
         transform=get_transforms_aug( network.size_input ), #get_transforms_aug
         )
-
+    
     num_train = len(train_data)
     sampler = SubsetRandomSampler(np.random.permutation( num_train ) ) 
     train_loader = DataLoader(train_data, batch_size=args.batch_size, 
