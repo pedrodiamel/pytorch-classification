@@ -140,7 +140,7 @@ def main():
             subset=FactoryDataset.training, 
             download=True, 
             ),
-        #count=100000,
+        count=100000,
         num_channels=network.num_input_channels,
         transform=get_transforms_aug( network.size_input ), #get_transforms_aug
         )
@@ -155,9 +155,10 @@ def main():
         data=FactoryDataset.factory(
             pathname='~/.datasets/', 
             name=FactoryDataset.bu3dfe, 
-            subset=FactoryDataset.training, 
+            subset=FactoryDataset.validation, 
             download=True,
             ),
+        count=10000,
         num_channels=network.num_input_channels,
         transform=get_transforms_det( network.size_input ),
         )
