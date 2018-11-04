@@ -44,7 +44,7 @@ class SyntheticFaceDataset( data.Dataset ):
         ext='jpg',
         count=None,
         num_channels=3,
-        generate='image_and_mask',
+        generate='image_and_label',
         iluminate=True, angle=45, translation=0.3, warp=0.1, factor=0.2,
         transform=None,
         ):
@@ -61,8 +61,7 @@ class SyntheticFaceDataset( data.Dataset ):
         if self.bbackimage: 
             pathnameback  = os.path.expanduser( pathnameback )            
             self.databack = imutl.imageProvide( pathnameback, ext=ext );   
-        
-        self.num_classes=2
+
         self.num_channels = num_channels
         self.generate = generate
         self.ren = Generator( iluminate, angle, translation, warp, factor );
@@ -94,7 +93,9 @@ class SyntheticFaceDataset( data.Dataset ):
             image = utility.to_gray( image.astype(np.uint8)  )
             image_t = utility.to_channels(image, self.num_channels)
             image_t = image_t.astype(np.uint8)  
-            obj = ObjectImageAndLabelTransform( image_t )            
+            label = utility.to_one_hot( int(label) , self.data.numclass)            
+            obj = ObjectImageAndLabelTransform( image_t, label )  
+            
         elif self.generate == 'image_and_mask':            
             image, mask = self.ren.generate( image, back )
             image = utility.to_gray( image.astype(np.uint8)  )
@@ -113,4 +114,4 @@ class SyntheticFaceDataset( data.Dataset ):
         if self.transform: 
             obj = self.transform( obj )
 
-        return obj.to_value()
+        return obj.to_dict()
