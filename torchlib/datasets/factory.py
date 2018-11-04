@@ -35,7 +35,7 @@ class FactoryDataset(object):
     cifar100='cifar100'
     stl10='stl10'
     svhn='svhn'
-
+    
     imaterialist='imaterialist'
     
     ferp='ferp'
@@ -46,16 +46,12 @@ class FactoryDataset(object):
     celeba='celeba'
     ferblack='ferblack'
     
-    
-
     cub2011='cub2011'
     cars196='cars196'
     stanford_online_products='stanford_online_products'
     cub2011metric='cub2011metric'
     cars196metric='cars196metric'
 
-
-    
 
     
     @classmethod
@@ -156,7 +152,7 @@ class FactoryDataset(object):
             if subset=='train':   subfolder = ferp.train 
             elif subset=='val':   subfolder = ferp.valid
             elif subset=='test':  subfolder = ferp.test
-            else:                 assert(False)    
+            else: assert(False)    
             data = ferp.FERPDataset( pathname, subfolder, download=download )
 
         elif name == 'ck':
@@ -178,7 +174,7 @@ class FactoryDataset(object):
             btrain=(subset=='train')
             pathname = create_folder(pathname, name) 
             data = fer.FERClassicDataset(pathname, 'bu3dfe', idenselect=[], train=btrain )
-
+            
         elif name == 'afew':  
             btrain=(subset=='train')
             pathname = create_folder(pathname, name)         
@@ -189,7 +185,6 @@ class FactoryDataset(object):
             btrain=(subset=='train')
             pathname = create_folder(pathname, name) 
             data = celeba.CelebaDataset(pathname, train=btrain, download=download)
-
             
         elif name == 'ferblack': 
             btrain=(subset=='train')
