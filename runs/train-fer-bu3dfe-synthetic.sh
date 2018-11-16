@@ -14,13 +14,13 @@ RESUME='chk000000xxx.pth.tar'
 GPU=0
 ARCH='preactresnet18'
 LOSS='cross'
-OPT='sgd'
+OPT='adam'
 SCHEDULER='step'
 SNAPSHOT=5
 NUMCLASS=7
 NUMCHANNELS=3
-IMAGESIZE=48
-EXP_NAME='baseline_'$ARCH'_'$LOSS'_'$OPT'_'$NAMEDATASET'_002'
+IMAGESIZE=32
+EXP_NAME='fer_'$ARCH'_'$LOSS'_'$OPT'_'$NAMEDATASET'_001'
 
 rm -rf $PROJECT/$EXP_NAME/$EXP_NAME.log
 rm -rf $PROJECT/$EXP_NAME/
@@ -28,7 +28,7 @@ mkdir $PROJECT
 mkdir $PROJECT/$EXP_NAME
 
 ## execute
-python ../train_fer_synthetic.py \
+python ../train_fersynthetic.py \
 $DATA \
 --project=$PROJECT \
 --name=$EXP_NAME \

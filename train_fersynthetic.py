@@ -20,7 +20,7 @@ from pytvision import visualization as view
 # LOCAL MODULE
 
 from torchlib.datasets  import Dataset
-from torchlib.datasets.synthetic_fer  import SyntheticFaceDataset
+from torchlib.datasets.fersynthetic  import SyntheticFaceDataset
 from torchlib.datasets.factory  import FactoryDataset
 from torchlib.neuralnet import NeuralNetClassifier
 from misc import get_transforms_aug, get_transforms_det
@@ -147,7 +147,7 @@ def main():
         ext='jpg',
         count=100000,
         num_channels=network.num_input_channels,
-        iluminate=True, angle=45, translation=0.3, warp=0.3, factor=0.35,
+        iluminate=True, angle=45, translation=0.3, warp=0.2, factor=0.2,
         transform=get_transforms_aug( network.size_input ), #get_transforms_aug
         )
     
@@ -169,7 +169,7 @@ def main():
         ext='jpg',
         count=10000,
         num_channels=network.num_input_channels,
-        iluminate=True, angle=45, translation=0.3, warp=0.3, factor=0.35,
+        iluminate=True, angle=45, translation=0.3, warp=0.2, factor=0.2,
         transform=get_transforms_det( network.size_input ),
         )
 

@@ -72,9 +72,6 @@ class FERFolderDataset( dataProvide ):
         self.transform = transform   
         self.data, self.targets = make_dataset( pathname, extensions )
         
-        
-        
-        
 
     def __len__(self):
         return len(self.data)
