@@ -19,8 +19,8 @@ from pytvision import visualization as view
 
 # LOCAL MODULE
 
-from torchlib.datasets  import Dataset
-from torchlib.datasets.synthetic_fer  import SyntheticFaceDataset
+from torchlib.datasets.datasets  import Dataset
+from torchlib.datasets.fersynthetic  import SyntheticFaceDataset
 from torchlib.datasets.factory  import FactoryDataset
 from torchlib.neuralnet import NeuralNetClassifier
 from misc import get_transforms_aug, get_transforms_det
@@ -138,7 +138,7 @@ def main():
     train_data = SyntheticFaceDataset(
         data=FactoryDataset.factory(
             pathname='~/.datasets/', 
-            name=FactoryDataset.bu3dfe, 
+            name=FactoryDataset.ferblack, 
             subset=FactoryDataset.training, 
             download=True, 
             ),
@@ -160,7 +160,7 @@ def main():
     val_data = SyntheticFaceDataset(
         data=FactoryDataset.factory(
             pathname='~/.datasets/', 
-            name=FactoryDataset.bu3dfe, 
+            name=FactoryDataset.ferblack, 
             subset=FactoryDataset.validation, 
             download=True,
             ),

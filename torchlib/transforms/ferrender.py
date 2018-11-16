@@ -35,7 +35,17 @@ def transform(image, mask, angle=360, translation=0.2, warp=0.0, padding=cv2.BOR
     mask  = F.applay_geometrical_transform( mask, mat_r, mat_t, mat_w, cv2.INTER_NEAREST , padding )
     return image, mask
     
-
+def norm(image, mask=None):
+    
+    image = image.astype(np.float)
+    for i in range(3):
+        image_norm = image[:,:,i]
+        minn = np.min( image_norm[mask==1] if mask is not None else image_norm )
+        maxn = np.max( image_norm[mask==1] if mask is not None else image_norm )        
+        image[:,:,i] = (image_norm-minn)/maxn
+    image  =  (image*255.0).astype(np.uint8)   
+    return image
+        
 class Generator(object):
     
     def __init__(self, iluminate=True, angle=45, translation=0.3, warp=0.1, factor=0.2 ):
@@ -44,6 +54,8 @@ class Generator(object):
         self.translation=translation
         self.warp=warp
         self.factor=factor
+        
+
 
     def mixture(self, img, mask, back, iluminate=True, angle=45, translation=0.3, warp=0.1, factor=0.2 ):
         '''mixture image with background '''        
@@ -53,20 +65,34 @@ class Generator(object):
         mask  = (mask[:,:,0] == 0).astype(np.uint8)
 
         #normalizate
-        image  =  image.astype(np.float32) - np.min(image)
-        image /=  np.max(image)
-        image  =  (image*255.0).astype(np.uint8)     
+        #image  =  image.astype(np.float32) - np.min( image )
+        #image /=  np.max(image )
+        #image  =  (image*255.0).astype(np.uint8)  
+        
+        image = norm(image, mask)
+        back  = norm(back)   
         
         #scale 
         image, mask = scale( image, mask, factor=factor )
-        image, mask = transform( image, mask, angle=angle, translation=translation, warp=warp )
+        image, mask = transform( image, mask, angle=angle, translation=translation, warp=warp )        
+        image_ilu = image.copy()
         
         #normalize illumination change
-        if iluminate:
-            image_lab        = skcolor.rgb2lab( image )
-            image_lab[:,:,0] = image_lab[:,:,0]*(rn.random()+0.5);
-            image_lab[:,:,0] = np.clip( image_lab[:,:,0], 10, 100 )
-            image            = skcolor.lab2rgb(image_lab)*255     
+        if iluminate:            
+            face_lab = skcolor.rgb2lab( image )
+            back_lab = skcolor.rgb2lab( back )                      
+            l_f = face_lab[:,:,0].mean()
+            l_b = back_lab[:,:,0].mean()
+            w_ligth = l_b/(l_f + np.finfo(np.float).eps)            
+            w_ligth = np.clip( w_ligth, 0.5, 1.5 )
+            face_lab[:,:,0] = np.clip( face_lab[:,:,0]*w_ligth , 10, 90 )
+            image_ilu = skcolor.lab2rgb(face_lab)*255 
+            
+            #image_lab = skcolor.rgb2lab( image )
+            #image_lab[:,:,0] = image_lab[:,:,0]*(rn.random()+0.5);
+            #image_lab[:,:,0] = np.clip( image_lab[:,:,0], 10, 100 )
+            #image            = skcolor.lab2rgb(image_lab)*255  
+            
         
         se = cv2.getStructuringElement(cv2.MORPH_RECT,(7,7)) #MORPH_CLOSE
         mask = cv2.morphologyEx(mask*1.0, cv2.MORPH_CLOSE, se)
@@ -74,8 +100,10 @@ class Generator(object):
         mask = ndi.morphology.binary_fill_holes( mask*1.0 , structure=np.ones((7,7)) ) == 1
         mask = np.stack( (mask,mask,mask), axis=2 )
 
-        image_mix = back*(1-mask) + (mask)*image       
-        return image_mix, mask
+        image_org = back*(1-mask) + (mask)*image   
+        image_ilu = back*(1-mask) + (mask)*image_ilu
+        
+        return image_org, image_ilu, mask
     
 
     def generate(self, image, back, pad = 10 ):
@@ -101,8 +129,8 @@ class Generator(object):
         back = back[ dy:(dy+im_h), dx:(dx+im_w), : ]
         back = cv2.resize(back, (im_w,im_h) ) 
         
-        image, mask = self.mixture( image, mask, back, self.iluminate, self.angle, self.translation, self.warp, self.factor  )
+        image_org, image_ilu, mask = self.mixture( image, mask, back, self.iluminate, self.angle, self.translation, self.warp, self.factor  )
         mask = mask.astype(int)
         
-        return image, mask
+        return image_org, image_ilu, mask
         

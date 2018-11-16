@@ -1,6 +1,7 @@
 
 import os
 import numpy as np
+import pandas as pd
 from pytvision.datasets.imageutl import dataProvide
 
 
@@ -54,6 +55,8 @@ def make_dataset(pathdir, extensions):
 
 
 
+
+
 class FERFolderDataset( dataProvide ):
     r"""FER Folder dataset
     """
@@ -71,19 +74,31 @@ class FERFolderDataset( dataProvide ):
         self.shuffle   = shuffle
         self.transform = transform   
         self.data, self.targets = make_dataset( pathname, extensions )
+        self.numclass = len(np.unique( self.targets ))
+                
+        df = pd.read_csv( os.path.join(pathname, 'ids.csv' ) )
+        self.iactor = df.as_matrix()[:,0]
         
+        idenselect = np.arange(20) + 0
+        indexs = np.ones( (len(self.data) ,1) )
+        actors = np.unique(self.iactor)
+        for i in idenselect:
+            indexs[self.iactor == actors[i]] = 0       
+        self.indexs = np.where(indexs == train)[0] 
         
-        
+                
         
 
     def __len__(self):
-        return len(self.data)
+        return len(self.indexs)
 
-    def __getitem__(self, idx):   
+    def __getitem__(self, i):   
+            
         #check index
-        if idx<0 and idx>len(self.data): 
-            raise ValueError('Index outside range')
+        if i<0 and i>len(self.indexs): 
+            raise ValueError('Index outside range') 
         
+        idx = self.indexs[i]        
         self.index = idx
         pathname   = self.data[idx][0]
         label      = self.data[idx][1]

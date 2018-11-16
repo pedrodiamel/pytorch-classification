@@ -8,7 +8,7 @@ import torch.utils.data as data
 import torch.nn.functional
 
 
-from ..transforms.render_fer import Generator
+from ..transforms.ferrender import Generator
 
 from pytvision.datasets import imageutl as imutl
 from pytvision.datasets import utility
@@ -46,7 +46,7 @@ class SyntheticFaceDataset( data.Dataset ):
         count=None,
         num_channels=3,
         generate='image_and_label',
-        iluminate=True, angle=45, translation=0.3, warp=0.1, factor=0.2,
+        iluminate=True, angle=45, translation=0.3, warp=0.2, factor=0.2,
         transform=None,
         ):
         """Initialization           
@@ -91,7 +91,7 @@ class SyntheticFaceDataset( data.Dataset ):
         if self.generate == 'image':
             obj = ObjectImageTransform( image  )
         elif self.generate == 'image_and_label':
-            image, _ = self.ren.generate( image, back )
+            _, image, _ = self.ren.generate( image, back )
             image = utility.to_gray( image.astype(np.uint8)  )
             image_t = utility.to_channels(image, self.num_channels)
             image_t = image_t.astype(np.uint8)  
@@ -99,7 +99,7 @@ class SyntheticFaceDataset( data.Dataset ):
             obj = ObjectImageAndLabelTransform( image_t, label )  
             
         elif self.generate == 'image_and_mask':            
-            image, mask = self.ren.generate( image, back )
+            _, image, mask = self.ren.generate( image, back )
             image = utility.to_gray( image.astype(np.uint8)  )
             image_t = utility.to_channels(image, self.num_channels)
             image_t = image_t.astype(np.uint8)             

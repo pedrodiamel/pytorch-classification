@@ -4,7 +4,7 @@
 DATA='~/.datasets/coco'
 NAMEDATASET='coco'
 PROJECT='../out/netruns'
-EPOCHS=1000
+EPOCHS=60
 BATCHSIZE=128
 LEARNING_RATE=0.0001
 MOMENTUM=0.9
@@ -15,12 +15,12 @@ GPU=0
 ARCH='preactresnet18'
 LOSS='cross'
 OPT='adam'
-SCHEDULER='fixed'
+SCHEDULER='step'
 SNAPSHOT=5
-NUMCLASS=7
+NUMCLASS=8
 NUMCHANNELS=3
-IMAGESIZE=48
-EXP_NAME='baseline_'$ARCH'_'$LOSS'_'$OPT'_'$NAMEDATASET'_002'
+IMAGESIZE=32
+EXP_NAME='fer_'$ARCH'_'$LOSS'_'$OPT'_'$NAMEDATASET'_ferblack_fold03_002'
 
 rm -rf $PROJECT/$EXP_NAME/$EXP_NAME.log
 rm -rf $PROJECT/$EXP_NAME/
@@ -28,7 +28,7 @@ mkdir $PROJECT
 mkdir $PROJECT/$EXP_NAME
 
 ## execute
-python ../train_fer_synthetic.py \
+python ../train_fersynthetic.py \
 $DATA \
 --project=$PROJECT \
 --name=$EXP_NAME \
