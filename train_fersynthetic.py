@@ -174,7 +174,8 @@ def main():
         data=FactoryDataset.factory(
             pathname=args.data, 
             name=args.name_dataset, 
-            subset=FactoryDataset.validation, 
+            subset=FactoryDataset.validation,
+            idenselect=idenselect, 
             download=True,
             ),
         pathnameback=args.databack, 

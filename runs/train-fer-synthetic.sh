@@ -5,25 +5,25 @@ DATABACK='~/.datasets/coco'
 DATA='~/.datasets'
 NAMEDATASET='bu3dfe' #bu3dfe, ferblack
 PROJECT='../out/netruns'
-EPOCHS=60
+EPOCHS=120
 BATCHSIZE=128
 LEARNING_RATE=0.0001
 MOMENTUM=0.9
 PRINT_FREQ=100
-WORKERS=40
+WORKERS=5
 RESUME='chk000000xxx.pth.tar'
-GPU=0
+GPU=1
 ARCH='preactresnet18'
 LOSS='cross'
 OPT='adam'
 SCHEDULER='step'
-SNAPSHOT=5
-NUMCLASS=8
+SNAPSHOT=50
+NUMCLASS=7
 NUMCHANNELS=3
 IMAGESIZE=32
 KFOLD=0
 NACTOR=10
-EXP_NAME='fer_'$ARCH'_'$LOSS'_'$OPT'_'$NAMEDATASET'_fold01_002'
+EXP_NAME='fer_'$ARCH'_'$LOSS'_'$OPT'_'$NAMEDATASET'_fold'$KFOLD'_002'
 
 rm -rf $PROJECT/$EXP_NAME/$EXP_NAME.log
 rm -rf $PROJECT/$EXP_NAME/
@@ -56,6 +56,6 @@ $DATA \
 --channels=$NUMCHANNELS \
 --image-size=$IMAGESIZE \
 --finetuning \
---parallel \
 2>&1 | tee -a $PROJECT/$EXP_NAME/$EXP_NAME.log \
 
+#--parallel \
