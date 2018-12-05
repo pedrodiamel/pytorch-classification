@@ -34,6 +34,9 @@ def arg_parser():
     parser = ArgumentParser()
     parser.add_argument('data', metavar='DIR', 
                         help='path to dataset')
+    parser.add_argument('--databack', metavar='DIR', 
+                        help='path to background dataset')
+                        
     parser.add_argument('--no-cuda', action='store_true', default=False,
                         help='enables CUDA training')
     parser.add_argument('-g', '--gpu', default=0, type=int, metavar='N',
@@ -44,6 +47,12 @@ def arg_parser():
                         help='number of data loading workers (default: 1)')
     parser.add_argument('--epochs', default=90, type=int, metavar='N',
                         help='number of total epochs to run')
+
+    parser.add_argument('--kfold', default=0, type=int, metavar='N',
+                        help='k fold')
+    parser.add_argument('--nactor', default=0, type=int, metavar='N',
+                        help='number of the actores')    
+
     parser.add_argument('--start-epoch', default=0, type=int, metavar='N',
                         help='manual epoch number (useful on restarts)')
     parser.add_argument('-b', '--batch-size', default=256, type=int, metavar='N', 
@@ -89,8 +98,8 @@ def arg_parser():
 def main():
     
     # parameters
-    parser = arg_parser();
-    args = parser.parse_args();
+    parser = arg_parser()
+    args = parser.parse_args()
     random.seed(0)
     
     print('Baseline clasification {}!!!'.format(datetime.datetime.now()))
@@ -132,17 +141,21 @@ def main():
     print('Load model: ')
     print(network)
 
-    
+    kfold=args.kfold
+    nactores=args.nactor
+    idenselect = np.arange(nactores) + kfold*nactores
+
     # datasets
     # training dataset
     train_data = SyntheticFaceDataset(
         data=FactoryDataset.factory(
-            pathname='~/.datasets/', 
-            name=FactoryDataset.ferblack, 
+            pathname=args.data, 
+            name=args.name_dataset, 
             subset=FactoryDataset.training, 
+            idenselect=idenselect,
             download=True, 
             ),
-        pathnameback=args.data, 
+        pathnameback=args.databack, 
         generate='image_and_label',
         ext='jpg',
         count=100000,
@@ -159,12 +172,12 @@ def main():
     # validate dataset
     val_data = SyntheticFaceDataset(
         data=FactoryDataset.factory(
-            pathname='~/.datasets/', 
-            name=FactoryDataset.ferblack, 
+            pathname=args.data, 
+            name=args.name_dataset, 
             subset=FactoryDataset.validation, 
             download=True,
             ),
-        pathnameback=args.data, 
+        pathnameback=args.databack, 
         generate='image_and_label',
         ext='jpg',
         count=10000,

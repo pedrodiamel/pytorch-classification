@@ -1,8 +1,9 @@
 #!/bin/bash
 
 # parameters
-DATA='~/.datasets/coco'
-NAMEDATASET='coco'
+DATABACK='~/.datasets/coco'
+DATA='~/.datasets'
+NAMEDATASET='bu3dfe' #bu3dfe, ferblack
 PROJECT='../out/netruns'
 EPOCHS=60
 BATCHSIZE=128
@@ -20,7 +21,9 @@ SNAPSHOT=5
 NUMCLASS=8
 NUMCHANNELS=3
 IMAGESIZE=32
-EXP_NAME='fer_'$ARCH'_'$LOSS'_'$OPT'_'$NAMEDATASET'_ferblack_fold03_002'
+KFOLD=0
+NACTOR=10
+EXP_NAME='fer_'$ARCH'_'$LOSS'_'$OPT'_'$NAMEDATASET'_fold01_002'
 
 rm -rf $PROJECT/$EXP_NAME/$EXP_NAME.log
 rm -rf $PROJECT/$EXP_NAME/
@@ -30,9 +33,13 @@ mkdir $PROJECT/$EXP_NAME
 ## execute
 python ../train_fersynthetic.py \
 $DATA \
+--databack=$DATABACK \
+--name-dataset=$NAMEDATASET \
 --project=$PROJECT \
 --name=$EXP_NAME \
 --epochs=$EPOCHS \
+--kfold=$KFOLD \
+--nactor=$NACTOR \
 --batch-size=$BATCHSIZE \
 --learning-rate=$LEARNING_RATE \
 --momentum=$MOMENTUM \
@@ -46,7 +53,6 @@ $DATA \
 --scheduler=$SCHEDULER \
 --arch=$ARCH \
 --num-classes=$NUMCLASS \
---name-dataset=$NAMEDATASET \
 --channels=$NUMCHANNELS \
 --image-size=$IMAGESIZE \
 --finetuning \

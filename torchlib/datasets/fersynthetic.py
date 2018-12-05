@@ -90,6 +90,7 @@ class SyntheticFaceDataset( data.Dataset ):
        
         if self.generate == 'image':
             obj = ObjectImageTransform( image  )
+            
         elif self.generate == 'image_and_label':
             _, image, _ = self.ren.generate( image, back )
             image = utility.to_gray( image.astype(np.uint8)  )
