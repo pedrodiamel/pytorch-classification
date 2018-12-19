@@ -156,9 +156,10 @@ class FactoryDataset(object):
             data = ferp.FERPDataset( pathname, subfolder, download=download )
 
         elif name == 'ck':
+            idenselect = np.arange(20) + 0
             btrain=(subset=='train') 
             pathname = create_folder(pathname, name)
-            data = fer.FERClassicDataset(pathname, 'ck', idenselect=[], train=btrain )
+            data = fer.FERClassicDataset(pathname, 'ck', idenselect=idenselect, train=btrain )
 
         elif name == 'ckp':
             btrain=(subset=='train')
