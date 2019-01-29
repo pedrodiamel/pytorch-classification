@@ -11,7 +11,7 @@ MOMENTUM=0.9
 PRINT_FREQ=100
 WORKERS=10
 RESUME='chk000000.pth.tar'
-GPU=0
+GPU=1
 ARCH='preactresnet18'
 LOSS='cross'
 OPT='sgd'
@@ -52,6 +52,6 @@ $DATA \
 --channels=$NUMCHANNELS \
 --image-size=$IMAGESIZE \
 --finetuning \
---parallel \
 2>&1 | tee -a $PROJECT/$EXP_NAME/$EXP_NAME.log \
 
+#--parallel \
