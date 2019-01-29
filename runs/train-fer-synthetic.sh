@@ -5,7 +5,7 @@ DATABACK='~/.datasets/coco'
 DATA='~/.datasets'
 NAMEDATASET='bu3dfe' #bu3dfe, ferblack
 PROJECT='../out/netruns'
-EPOCHS=120
+EPOCHS=500
 BATCHSIZE=128
 LEARNING_RATE=0.0001
 MOMENTUM=0.9
@@ -23,7 +23,7 @@ NUMCHANNELS=3
 IMAGESIZE=32
 KFOLD=0
 NACTOR=10
-EXP_NAME='fer_'$ARCH'_'$LOSS'_'$OPT'_'$NAMEDATASET'_fold'$KFOLD'_002'
+EXP_NAME='ferbase_'$ARCH'_'$LOSS'_'$OPT'_'$NAMEDATASET'_fold'$KFOLD'_000'
 
 rm -rf $PROJECT/$EXP_NAME/$EXP_NAME.log
 rm -rf $PROJECT/$EXP_NAME/
@@ -55,7 +55,7 @@ $DATA \
 --num-classes=$NUMCLASS \
 --channels=$NUMCHANNELS \
 --image-size=$IMAGESIZE \
+--parallel \
 --finetuning \
 2>&1 | tee -a $PROJECT/$EXP_NAME/$EXP_NAME.log \
 
-#--parallel \

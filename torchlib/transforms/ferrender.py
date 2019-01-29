@@ -35,8 +35,7 @@ def transform(image, mask, angle=360, translation=0.2, warp=0.0, padding=cv2.BOR
     mask  = F.applay_geometrical_transform( mask, mat_r, mat_t, mat_w, cv2.INTER_NEAREST , padding )
     return image, mask
     
-def norm(image, mask=None):
-    
+def norm(image, mask=None):    
     image = image.astype(np.float)
     for i in range(3):
         image_norm = image[:,:,i]
@@ -63,11 +62,6 @@ class Generator(object):
         image = img.copy()
         mask  = mask.copy()
         mask  = (mask[:,:,0] == 0).astype(np.uint8)
-
-        #normalizate
-        #image  =  image.astype(np.float32) - np.min( image )
-        #image /=  np.max(image )
-        #image  =  (image*255.0).astype(np.uint8)  
         
         image = norm(image, mask)
         back  = norm(back)   
@@ -87,12 +81,6 @@ class Generator(object):
             w_ligth = np.clip( w_ligth, 0.5, 1.5 )
             face_lab[:,:,0] = np.clip( face_lab[:,:,0]*w_ligth , 10, 90 )
             image_ilu = skcolor.lab2rgb(face_lab)*255 
-            
-            #image_lab = skcolor.rgb2lab( image )
-            #image_lab[:,:,0] = image_lab[:,:,0]*(rn.random()+0.5);
-            #image_lab[:,:,0] = np.clip( image_lab[:,:,0], 10, 100 )
-            #image            = skcolor.lab2rgb(image_lab)*255  
-            
         
         se = cv2.getStructuringElement(cv2.MORPH_RECT,(7,7)) #MORPH_CLOSE
         mask = cv2.morphologyEx(mask*1.0, cv2.MORPH_CLOSE, se)
