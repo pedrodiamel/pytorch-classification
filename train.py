@@ -130,13 +130,10 @@ def main():
     print('Load model: ')
     print(network)
 
-    
-    #train_transform = transforms.Compose(
-    #[         
-    #    transforms.RandomCrop( network.size_input , padding=4 ), 
-    #    transforms.RandomHorizontalFlip(),
-    #    
-    #])
+    kfold=0 #args.kfold
+    nactores=10 #args.nactor
+    idenselect = np.arange(nactores) + kfold*nactores
+
     
     # datasets
     # training dataset
@@ -145,9 +142,9 @@ def main():
             pathname=args.data, 
             name=args.name_dataset, 
             subset=FactoryDataset.training, 
-            #transform=train_transform, 
+            idenselect=idenselect,
             download=True ),
-        #count=100000,
+        count=100000,
         num_channels=network.num_input_channels,
         transform=get_transforms_aug( network.size_input ), #get_transforms_aug
         )
@@ -163,7 +160,9 @@ def main():
             pathname=args.data, 
             name=args.name_dataset, 
             subset=FactoryDataset.validation, 
+            idenselect=idenselect,
             download=True ),
+        count=10000,
         num_channels=network.num_input_channels,
         transform=get_transforms_det( network.size_input ),
         )

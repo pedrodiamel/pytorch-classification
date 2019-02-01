@@ -4,7 +4,6 @@
     
     cd runs
     bash train-[dataset].sh
-
 ## Installation 
 
     $git clone https://github.com/pedrodiamel/pytorchvision.git
