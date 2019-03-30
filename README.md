@@ -1,5 +1,8 @@
 # Pytorch Classification
 
+
+
+
 ## Training
     
     cd runs
@@ -26,15 +29,15 @@ To use Visdom in the browser:
 
 ## Accuracy
 
-| Model             | CIFAR10     | CIFAR100    |
-| ----------------- | ----------- | ----------- |
-| PreActResNet18    | 95.36%      | 77.02%      |
-| PreActResNet34    | 95.72%      | 78.83%      |
+| Model             | CIFAR10     | CIFAR100    | FERp        | STL10       |
+| ----------------- | ----------- | ----------- | ----------- | ----------- |
+| PreActResNet18    | 95.36%      | 77.02%      |  87.25      |             |
+| PreActResNet34    | 95.72%      | 78.83%      |             |             | 
 
 
 
-## Ref
+## References
+
 - https://github.com/kuangliu/pytorch-cifar
 - https://github.com/Cadene/pretrained-models.pytorch
 - http://rodrigob.github.io/are_we_there_yet/build/classification_datasets_results.html
-
