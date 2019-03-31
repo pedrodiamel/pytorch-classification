@@ -14,12 +14,15 @@ from torchvision import transforms, utils
 import torch.backends.cudnn as cudnn
 
 # PYTVISION MODULE
+from pytvision.datasets.datasets import Dataset
+from pytvision.datasets.factory import FactoryDataset 
 from pytvision.transforms import transforms as mtrans
 from pytvision import visualization as view
 
+
 # LOCAL MODULE
-from torchlib.datasets.datasets  import Dataset
-from torchlib.datasets.factory  import FactoryDataset
+# from torchlib.datasets.datasets  import Dataset
+# from torchlib.datasets.factory  import FactoryDataset
 from torchlib.neuralnet import NeuralNetClassifier
 from misc import get_transforms_aug, get_transforms_det
 

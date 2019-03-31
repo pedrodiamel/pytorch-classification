@@ -143,8 +143,8 @@ class NeuralNetClassifier(NeuralNetAbstract):
                       
             # update
             self.logger_train.update(
-                {'loss': loss.data[0] },
-                dict(zip(self.metrics_name, [pred[p][0] for p in range(len(self.metrics_name))  ])),      
+                {'loss': loss.item() },
+                dict(zip(self.metrics_name, [pred[p].item() for p in range(len(self.metrics_name))  ])),      
                 batch_size,
                 )
             
@@ -192,8 +192,8 @@ class NeuralNetClassifier(NeuralNetAbstract):
 
                 # update
                 self.logger_val.update(
-                {'loss': loss.data[0] },
-                dict(zip(self.metrics_name, [pred[p][0] for p in range(len(self.metrics_name))  ])),      
+                {'loss': loss.data.item() },
+                dict(zip(self.metrics_name, [pred[p].item() for p in range(len(self.metrics_name))  ])),      
                 batch_size,
                 )
 

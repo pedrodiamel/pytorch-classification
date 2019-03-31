@@ -35,6 +35,13 @@ def get_transforms_aug( size_input ):
     return transforms.Compose([
         
         #------------------------------------------------------------------
+        #Resize
+        #         
+        mtrans.ToResize( (size_input+5, size_input+5), resize_mode='square' ) ,
+        mtrans.RandomCrop( (size_input, size_input), limit=2, padding_mode=cv2.BORDER_REPLICATE  ) , 
+        
+        
+        #------------------------------------------------------------------
         #Geometric 
         
         mtrans.RandomScale(factor=0.2, padding_mode=cv2.BORDER_REPLICATE ), 
@@ -52,12 +59,6 @@ def get_transforms_aug( size_input ):
         mtrans.ToRandomTransform( mtrans.CLAHE(), prob=0.25 ),
         mtrans.ToRandomTransform(mtrans.ToGaussianBlur( sigma=0.05 ), prob=0.25 ),
         
-        #------------------------------------------------------------------
-        #Resize
-        #         
-        mtrans.ToResize( (size_input+5, size_input+5), resize_mode='square' ) ,
-        mtrans.RandomCrop( (size_input, size_input), limit=2, padding_mode=cv2.BORDER_REPLICATE  ) , 
-
 
         #------------------------------------------------------------------
         mtrans.ToTensor(),

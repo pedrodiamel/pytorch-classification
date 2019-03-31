@@ -29,9 +29,9 @@ To use Visdom in the browser:
 
 ## Accuracy
 
-| Model             | CIFAR10     | CIFAR100    | FERp        | STL10       |
+| Model             | CIFAR10     | CIFAR100    | FERp        | Affect      |
 | ----------------- | ----------- | ----------- | ----------- | ----------- |
-| PreActResNet18    | 95.36%      | 77.02%      |  87.25      |             |
+| PreActResNet18    | 95.36%      | 77.02%      |  87.25      | 43.0        |
 | PreActResNet34    | 95.72%      | 78.83%      |             |             | 
 
 
