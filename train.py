@@ -9,7 +9,7 @@ import random
 # TORCH MODULE
 import torch
 from torch.utils.data import Dataset, DataLoader
-from torch.utils.data.sampler import SubsetRandomSampler
+from torch.utils.data.sampler import SubsetRandomSampler, WeightedRandomSampler
 from torchvision import transforms, utils
 import torch.backends.cudnn as cudnn
 
@@ -155,8 +155,16 @@ def main():
         transform=get_transforms_aug( network.size_input ), #get_transforms_aug
         )
 
-    num_train = len(train_data)
-    sampler = SubsetRandomSampler(np.random.permutation( num_train ) ) 
+    
+    
+    labels, counts = np.unique(train_data.labels, return_counts=True)
+    weights = 1/(counts/counts.sum())        
+    samples_weights = np.array([ weights[ x ]  for x in train_data.labels ])  
+    
+#     num_train = len(train_data)
+#     sampler = SubsetRandomSampler(np.random.permutation( num_train ) ) 
+    sampler = WeightedRandomSampler( weights=samples_weights, num_samples=len(samples_weights) , replacement=True )
+    
     train_loader = DataLoader(train_data, batch_size=args.batch_size, 
         sampler=sampler, num_workers=args.workers, pin_memory=network.cuda, drop_last=True)
     

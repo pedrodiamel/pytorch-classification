@@ -39,6 +39,7 @@ def get_transforms_aug( size_input ):
         #         
         mtrans.ToResize( (size_input+5, size_input+5), resize_mode='square' ) ,
         mtrans.RandomCrop( (size_input, size_input), limit=2, padding_mode=cv2.BORDER_REPLICATE  ) , 
+        mtrans.ToGrayscale(),
         
         
         #------------------------------------------------------------------
@@ -76,6 +77,7 @@ def get_transforms_det(size_input):
         #mtrans.CenterCrop( (size_input, size_input), padding_mode=cv2.BORDER_REPLICATE  ) , 
         mtrans.ToResize( (size_input, size_input), resize_mode='squash' ) ,
         #mtrans.ToResize( (size_input, size_input), resize_mode='square', padding_mode=cv2.BORDER_REPLICATE ) ,
+        mtrans.ToGrayscale(),
         mtrans.ToTensor(),
         normalize,
         ])
