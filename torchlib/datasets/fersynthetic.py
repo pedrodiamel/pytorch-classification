@@ -89,7 +89,7 @@ class SyntheticFaceDataset( data.Dataset ):
             back = np.ones( (640,1024,3), dtype=np.uint8 )*255
        
         if self.generate == 'image':
-            obj = ObjectImageTransform( image  )
+            obj = ObjectImageTransform( image )
             
         elif self.generate == 'image_and_label':
             _, image, _ = self.ren.generate( image, back )
@@ -97,7 +97,7 @@ class SyntheticFaceDataset( data.Dataset ):
             image_t = utility.to_channels(image, self.num_channels)
             image_t = image_t.astype(np.uint8)  
             label = utility.to_one_hot( int(label) , self.data.numclass)            
-            obj = ObjectImageAndLabelTransform( image_t, label )  
+            obj = ObjectImageAndLabelTransform( image_t, label )
             
         elif self.generate == 'image_and_mask':            
             _, image, mask = self.ren.generate( image, back )
@@ -111,8 +111,9 @@ class SyntheticFaceDataset( data.Dataset ):
             mask_t[:,:,0] = (mask == 0).astype( np.uint8 ) # backgraund
             mask_t[:,:,1] = (mask == 1).astype( np.uint8 )
             obj = ObjectImageAndMaskMetadataTransform( image_t, mask_t, np.array([label]) )
+            
         else: 
-            assert(False)         
+            assert(False)
 
         if self.transform: 
             obj = self.transform( obj )
