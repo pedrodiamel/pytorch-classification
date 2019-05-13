@@ -2,14 +2,14 @@
 
 # parameters
 DATA=$HOME/.datasets
-NAMEDATASET='bu3dfe'
+NAMEDATASET='ck'
 PROJECT='../out/netruns'
 EPOCHS=1000
-BATCHSIZE=128
+BATCHSIZE=128 #128
 LEARNING_RATE=0.0001
 MOMENTUM=0.9
 PRINT_FREQ=100
-WORKERS=20
+WORKERS=0
 RESUME='chk000000.pth.tar'
 GPU=0
 ARCH='preactresnet18'
@@ -17,9 +17,9 @@ LOSS='cross'
 OPT='adam'
 SCHEDULER='step'
 SNAPSHOT=50
-NUMCLASS=7
+NUMCLASS=8
 NUMCHANNELS=3
-IMAGESIZE=32
+IMAGESIZE=64 #preactresnet18:32, Resnet18:224, 
 KFOLD=0
 NACTOR=10
 EXP_NAME='ferbase_'$ARCH'_'$LOSS'_'$OPT'_real_'$NAMEDATASET'_fold'$KFOLD'_000'
@@ -51,7 +51,7 @@ $DATA \
 --name-dataset=$NAMEDATASET \
 --channels=$NUMCHANNELS \
 --image-size=$IMAGESIZE \
---finetuning \
 --parallel \
+--finetuning \
 2>&1 | tee -a $PROJECT/$EXP_NAME/$EXP_NAME.log \
 
