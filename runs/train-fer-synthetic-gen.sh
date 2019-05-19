@@ -1,38 +1,55 @@
 #!/bin/bash
 
+#1: dataset
+#2: arch
+#3: imsize
+
+
 # parameters
-DATA=$HOME/.datasets
-NAMEDATASET='affectnet'
+DATABACK='~/.datasets/coco'
+DATA='~/.datasets'
+NAMEDATASET=$1  
 PROJECT='../out/netruns'
-EPOCHS=150
+EPOCHS=1 # 150
 BATCHSIZE=128
 LEARNING_RATE=0.0001
 MOMENTUM=0.9
 PRINT_FREQ=100
-WORKERS=10
-RESUME='chk000000.pth.tar'
+WORKERS=20
+RESUME='chk000000xxx.pth.tar'
 GPU=0
-ARCH='preactresnet18'
+ARCH=$2
 LOSS='cross'
 OPT='adam'
-SCHEDULER='step'
-SNAPSHOT=5
+SCHEDULER='fixed'
+SNAPSHOT=50
 NUMCLASS=8
 NUMCHANNELS=3
-IMAGESIZE=32
-EXP_NAME='baseline_'$ARCH'_'$LOSS'_'$OPT'_'$NAMEDATASET'_000'
+IMAGESIZE=$3
+KFOLD=0
+NACTOR=10
+EXP_NAME='baseline_'$ARCH'_'$LOSS'_'$OPT'_'$NAMEDATASET'_fold'$KFOLD'_weights_000'
 
+mkdir ../out
 rm -rf $PROJECT/$EXP_NAME/$EXP_NAME.log
 rm -rf $PROJECT/$EXP_NAME/
 mkdir $PROJECT
 mkdir $PROJECT/$EXP_NAME
 
+echo $EXP_NAME
+
+
+# CUDA_VISIBLE_DEVICES=0
 ## execute
-python ../train.py \
+python ../train_fersynthetic.py \
 $DATA \
+--databack=$DATABACK \
+--name-dataset=$NAMEDATASET \
 --project=$PROJECT \
 --name=$EXP_NAME \
 --epochs=$EPOCHS \
+--kfold=$KFOLD \
+--nactor=$NACTOR \
 --batch-size=$BATCHSIZE \
 --learning-rate=$LEARNING_RATE \
 --momentum=$MOMENTUM \
@@ -46,10 +63,9 @@ $DATA \
 --scheduler=$SCHEDULER \
 --arch=$ARCH \
 --num-classes=$NUMCLASS \
---name-dataset=$NAMEDATASET \
 --channels=$NUMCHANNELS \
 --image-size=$IMAGESIZE \
---finetuning \
 --parallel \
+--finetuning \
 2>&1 | tee -a $PROJECT/$EXP_NAME/$EXP_NAME.log \
 
