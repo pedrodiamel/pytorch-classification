@@ -18,12 +18,12 @@ from pytvision.logger import Logger, AverageFilterMeter, AverageMeter
 from pytvision import utils as pytutils
 from pytvision import graphic as gph
 from pytvision import netlearningrate
+from pytvision import netmodels as nnmodels
 
 # LOCAL MODULE
-from . import models as nnmodels
+# from . import models as nnmodels
 from . import losses as nloss
 from . import utils  as ult
-
 
 
 class NeuralNetClassifier(NeuralNetAbstract):

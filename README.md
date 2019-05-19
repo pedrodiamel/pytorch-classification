@@ -25,10 +25,20 @@ To use Visdom in the browser:
 
 ## Accuracy
 
-| Model             | CIFAR10     | CIFAR100    |
-| ----------------- | ----------- | ----------- |
-| PreActResNet18    | 95.36%      | 77.02%      |
-| PreActResNet34    | 95.72%      | 78.83%      |
+| Model             | AffectNet-Syth    | AffectNet-Real  | Ferp        | Jaffe      | Ckp          | BU3DFE      |
+| ----------------- | ----------------- | --------------- | ----------- | ---------- | ------------ |------------ |
+| SimpleNet         |                   |                 |             |            |              |             |  
+| AlexNet           |                   |                 |             |            |              |             | 
+| VGG11             |                   |                 |             |            |              |             | 
+| ResNet18          |                   |                 |             |            |              |             |
+| InceptionV3       |                   |                 |             |            |              |             | 
+| DenseNet121       |                   |                 |             |            |              |             | 
+| CVGG              |                   |                 |             |            |              |             | 
+| DeXpression       |                   |                 |             |            |              |             |   
+| FMPNet            |                   |                 |             |            |              |             | 
+| PreActResNet18    |                   |                 |             |            |              |             |
+| PreActResNet34    |                   |                 |             |            |              |             |
+
 
 
 

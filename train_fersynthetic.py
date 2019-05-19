@@ -23,11 +23,9 @@ from pytvision.datasets.factory  import FactoryDataset
 
 
 # LOCAL MODULE
-
 # from torchlib.datasets.datasets  import Dataset
 # from torchlib.datasets.fersynthetic  import SyntheticFaceDataset
 # from torchlib.datasets.factory  import FactoryDataset
-
 from torchlib.neuralnet import NeuralNetClassifier
 from misc import get_transforms_aug, get_transforms_det
 
@@ -177,7 +175,7 @@ def main():
     
     
     num_train = len(train_data)
-#     sampler = SubsetRandomSampler(np.random.permutation( num_train ) ) 
+    #sampler = SubsetRandomSampler(np.random.permutation( num_train ) ) 
     sampler = WeightedRandomSampler( weights=samples_weights, num_samples=len(samples_weights) , replacement=True )
     train_loader = DataLoader(train_data, batch_size=args.batch_size, 
         sampler=sampler, num_workers=args.workers, pin_memory=network.cuda, drop_last=True)
