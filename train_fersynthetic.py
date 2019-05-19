@@ -9,7 +9,7 @@ import random
 # TORCH MODULE
 import torch
 from torch.utils.data import Dataset, DataLoader
-from torch.utils.data.sampler import SubsetRandomSampler
+from torch.utils.data.sampler import SubsetRandomSampler, WeightedRandomSampler
 from torchvision import transforms, utils
 import torch.backends.cudnn as cudnn
 
@@ -17,11 +17,17 @@ import torch.backends.cudnn as cudnn
 from pytvision.transforms import transforms as mtrans
 from pytvision import visualization as view
 
+from pytvision.datasets.datasets  import Dataset
+from pytvision.datasets.fersynthetic  import SyntheticFaceDataset
+from pytvision.datasets.factory  import FactoryDataset
+
+
 # LOCAL MODULE
 
-from torchlib.datasets.datasets  import Dataset
-from torchlib.datasets.fersynthetic  import SyntheticFaceDataset
-from torchlib.datasets.factory  import FactoryDataset
+# from torchlib.datasets.datasets  import Dataset
+# from torchlib.datasets.fersynthetic  import SyntheticFaceDataset
+# from torchlib.datasets.factory  import FactoryDataset
+
 from torchlib.neuralnet import NeuralNetClassifier
 from misc import get_transforms_aug, get_transforms_det
 
@@ -152,20 +158,27 @@ def main():
             pathname=args.data, 
             name=args.name_dataset, 
             subset=FactoryDataset.training, 
-            idenselect=idenselect,
+            #idenselect=idenselect,
             download=True, 
             ),
         pathnameback=args.databack, 
         generate='image_and_label',
         ext='jpg',
-        count=100000,
+        #count=100000,
         num_channels=network.num_input_channels,
-        iluminate=True, angle=45, translation=0.3, warp=0.2, factor=0.2,
-        transform=get_transforms_aug( network.size_input ), #get_transforms_aug
+        iluminate=True, angle=30, translation=0.2, warp=0.1, factor=0.2,
+        transform_image=get_transforms_aug( network.size_input ), #get_transforms_aug
         )
     
+    
+    labels, counts = np.unique(train_data.labels, return_counts=True)
+    weights = 1/(counts/counts.sum())        
+    samples_weights = np.array([ weights[ x ]  for x in train_data.labels ])    
+    
+    
     num_train = len(train_data)
-    sampler = SubsetRandomSampler(np.random.permutation( num_train ) ) 
+#     sampler = SubsetRandomSampler(np.random.permutation( num_train ) ) 
+    sampler = WeightedRandomSampler( weights=samples_weights, num_samples=len(samples_weights) , replacement=True )
     train_loader = DataLoader(train_data, batch_size=args.batch_size, 
         sampler=sampler, num_workers=args.workers, pin_memory=network.cuda, drop_last=True)
     
@@ -175,16 +188,16 @@ def main():
             pathname=args.data, 
             name=args.name_dataset, 
             subset=FactoryDataset.validation,
-            idenselect=idenselect, 
+            #idenselect=idenselect, 
             download=True,
             ),
         pathnameback=args.databack, 
         generate='image_and_label',
         ext='jpg',
-        count=10000,
+        #count=10000,
         num_channels=network.num_input_channels,
-        iluminate=True, angle=45, translation=0.3, warp=0.2, factor=0.2,
-        transform=get_transforms_det( network.size_input ),
+        iluminate=True, angle=30, translation=0.2, warp=0.1, factor=0.2,
+        transform_image=get_transforms_det( network.size_input ),
         )
 
     num_val = len(val_data)
