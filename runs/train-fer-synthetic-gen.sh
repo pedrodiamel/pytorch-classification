@@ -9,7 +9,7 @@
 DATABACK='~/.datasets/coco'
 DATA='~/.datasets'
 NAMEDATASET=$1  
-PROJECT='../out/netruns'
+PROJECT='../out/expnetruns'
 EPOCHS=1 # 150
 BATCHSIZE=128
 LEARNING_RATE=0.0001
@@ -39,7 +39,7 @@ mkdir $PROJECT/$EXP_NAME
 echo $EXP_NAME
 
 
-# CUDA_VISIBLE_DEVICES=0
+# CUDA_VISIBLE_DEVICES=0 
 ## execute
 python ../train_fersynthetic.py \
 $DATA \
