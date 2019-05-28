@@ -10,6 +10,6 @@ IMAGESIZE=( 229 64 227 224 224 224 64 64 48 32 )
 for i in {0..9}
 do 
     echo ${MODELS[$i]} ${IMAGESIZE[$i]}x${IMAGESIZE[$i]} 
-    bash train-fer-synthetic-gen.sh $DATASET ${MODELS[$i]} ${IMAGESIZE[$i]}
+    bash train-fer-synthetic-all.sh $DATASET ${MODELS[$i]} ${IMAGESIZE[$i]}
     
 done
