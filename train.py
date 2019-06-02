@@ -9,17 +9,19 @@ import random
 # TORCH MODULE
 import torch
 from torch.utils.data import Dataset, DataLoader
-from torch.utils.data.sampler import SubsetRandomSampler
+from torch.utils.data.sampler import SubsetRandomSampler, WeightedRandomSampler
 from torchvision import transforms, utils
 import torch.backends.cudnn as cudnn
 
 # PYTVISION MODULE
 from pytvision.transforms import transforms as mtrans
 from pytvision import visualization as view
+from pytvision.datasets.datasets  import Dataset
+from pytvision.datasets.factory  import FactoryDataset
 
 # LOCAL MODULE
-from torchlib.datasets.datasets  import Dataset
-from torchlib.datasets.factory  import FactoryDataset
+# from torchlib.datasets.datasets  import Dataset
+# from torchlib.datasets.factory  import FactoryDataset
 from torchlib.neuralnet import NeuralNetClassifier
 from misc import get_transforms_aug, get_transforms_det
 
@@ -142,15 +144,21 @@ def main():
             pathname=args.data, 
             name=args.name_dataset, 
             subset=FactoryDataset.training, 
-            idenselect=idenselect,
+            #idenselect=idenselect,
             download=True ),
-        count=100000,
+        count=500000,
         num_channels=network.num_input_channels,
         transform=get_transforms_aug( network.size_input ), #get_transforms_aug
         )
+    
+    
+    labels, counts = np.unique(train_data.labels, return_counts=True)
+    weights = 1/(counts/counts.sum())        
+    samples_weights = np.array([ weights[ x ]  for x in train_data.labels ])    
 
     num_train = len(train_data)
-    sampler = SubsetRandomSampler(np.random.permutation( num_train ) ) 
+    sampler = WeightedRandomSampler( weights=samples_weights, num_samples=len(samples_weights), replacement=True )
+    #sampler = SubsetRandomSampler(np.random.permutation( num_train ) ) 
     train_loader = DataLoader(train_data, batch_size=args.batch_size, 
         sampler=sampler, num_workers=args.workers, pin_memory=network.cuda, drop_last=True)
     
@@ -160,7 +168,7 @@ def main():
             pathname=args.data, 
             name=args.name_dataset, 
             subset=FactoryDataset.validation, 
-            idenselect=idenselect,
+            #idenselect=idenselect,
             download=True ),
         count=10000,
         num_channels=network.num_input_channels,

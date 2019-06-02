@@ -10,7 +10,7 @@ BATCHSIZE=128
 LEARNING_RATE=0.0001
 MOMENTUM=0.9
 PRINT_FREQ=100
-WORKERS=4
+WORKERS=0
 RESUME='chk000000xxx.pth.tar'
 GPU=0
 ARCH='preactresnet18'
@@ -20,7 +20,7 @@ SCHEDULER='step'
 SNAPSHOT=50
 NUMCLASS=8
 NUMCHANNELS=3
-IMAGESIZE=32 
+IMAGESIZE=32
 KFOLD=0
 NACTOR=10
 EXP_NAME='baseline_'$ARCH'_'$LOSS'_'$OPT'_'$NAMEDATASET'_fold'$KFOLD'_weights_000'
@@ -31,7 +31,7 @@ mkdir $PROJECT
 mkdir $PROJECT/$EXP_NAME
 
 ## execute
-python ../train_fersynthetic.py \
+CUDA_VISIBLE_DEVICES=0,1,2,3 python ../train_fersynthetic.py \
 $DATA \
 --databack=$DATABACK \
 --name-dataset=$NAMEDATASET \
