@@ -3,7 +3,7 @@
 
 PATHDATASET='~/.datasets/'
 PROJECT='../out/baselinenetruns'
-PROJECTNAME='baseline_resnet18_cross_adam_ferp_weights_000'
+PROJECTNAME='baseline_dexpression_cross_adam_ferp_weights_000'
 PATHNAMEOUT='../out'
 FILENAME='result_fer.txt'
 PATHMODEL='models'

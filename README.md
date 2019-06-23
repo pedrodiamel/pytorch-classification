@@ -35,14 +35,14 @@ To use Visdom in the browser:
 ### Training in Fer+ dataset
 
 
-| Model             | Ferp              | AffectNet       | Ckp         | Jaffe      | BU3DFE       | Models      |
+| Model             | Ferp(test)        | AffectNet(val)  | Ckp         | Jaffe      | BU3DFE       | Models      |
 | ----------------- | ----------------- | --------------- | ----------- | ---------- | ------------ |------------ |
 | PreActResNet18    | 82.372            | 26,100          | 55,307      | 36,318     | 39,828       |             |
 | FMPNet            | 79,535            | 29,200          | 65,363      | 46,766     | 41,379       |             | 
 | CVGG              | 84,316            | 31,150          | 66,201      | 46,269     | 42,069       |             |
 | ResNet18          | 87,695            | 34,400          | 71,508      | 50,746     | 45,345       |             |
 | AlexNet           | 86,038            | 35,075          | 70,670      | 64,401     | 46,379       |             | 
-| DeXpression       |                   |                 |             |            |              |             |  
+| DeXpression       | 79,694            | 31,875          | 51,117      | 44,279     | 37,241       |             |  
 
 
 
