@@ -22,6 +22,7 @@ from pytvision.datasets.factory  import FactoryDataset
 # LOCAL MODULE
 # from torchlib.datasets.datasets  import Dataset
 # from torchlib.datasets.factory  import FactoryDataset
+
 from torchlib.neuralnet import NeuralNetClassifier
 from misc import get_transforms_aug, get_transforms_det
 
@@ -146,7 +147,7 @@ def main():
             subset=FactoryDataset.training, 
             #idenselect=idenselect,
             download=True ),
-        count=500000,
+        #count=100000,
         num_channels=network.num_input_channels,
         transform=get_transforms_aug( network.size_input ), #get_transforms_aug
         )
@@ -170,7 +171,7 @@ def main():
             subset=FactoryDataset.validation, 
             #idenselect=idenselect,
             download=True ),
-        count=10000,
+        #count=10000,
         num_channels=network.num_input_channels,
         transform=get_transforms_det( network.size_input ),
         )

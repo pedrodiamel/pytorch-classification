@@ -41,7 +41,7 @@ echo $EXP_NAME
 
 # CUDA_VISIBLE_DEVICES=0 
 ## execute
-python ../train_fersynthetic.py \
+CUDA_VISIBLE_DEVICES=0,1  python ../train_fersynthetic.py \
 $DATA \
 --databack=$DATABACK \
 --name-dataset=$NAMEDATASET \

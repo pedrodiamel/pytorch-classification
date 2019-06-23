@@ -1,9 +1,14 @@
 # Pytorch Classification
 
+This project were created for training single classification models. 
+
+
 ## Training
     
     cd runs
     bash train-[dataset].sh
+
+
 ## Installation 
 
     $git clone https://github.com/pedrodiamel/pytorchvision.git
@@ -23,27 +28,41 @@ To use Visdom in the browser:
     # http://localhost:8097/
 
 
-## Accuracy
 
-| Model             | AffectNet-Syth    | AffectNet-Real  | Ferp        | Jaffe      | Ckp          | BU3DFE      |
+
+## FER problem
+
+### Training in Fer+ dataset
+
+
+| Model             | Ferp              | AffectNet       | Ckp         | Jaffe      | BU3DFE       | Models      |
 | ----------------- | ----------------- | --------------- | ----------- | ---------- | ------------ |------------ |
-| SimpleNet         |                   |                 |             |            |              |             |  
-| AlexNet           |                   |                 |             |            |              |             | 
-| VGG11             |                   |                 |             |            |              |             | 
-| ResNet18          |                   |                 |             |            |              |             |
-| InceptionV3       |                   |                 |             |            |              |             | 
-| DenseNet121       |                   |                 |             |            |              |             | 
-| CVGG              |                   |                 |             |            |              |             | 
-| DeXpression       |                   |                 |             |            |              |             |   
-| FMPNet            |                   |                 |             |            |              |             | 
-| PreActResNet18    |                   |                 |             |            |              |             |
-| PreActResNet34    |                   |                 |             |            |              |             |
+| PreActResNet18    | 82.372            | 26,100          | 55,307      | 36,318     | 39,828       |             |
+| FMPNet            | 79,535            | 29,200          | 65,363      | 46,766     | 41,379       |             | 
+| CVGG              | 84,316            | 31,150          | 66,201      | 46,269     | 42,069       |             |
+| ResNet18          | 87,695            | 34,400          | 71,508      | 50,746     | 45,345       |             |
+| AlexNet           | 86,038            | 35,075          | 70,670      | 64,401     | 46,379       |             | 
+| DeXpression       |                   |                 |             |            |              |             |  
 
 
 
 
 ## Ref
+
 - https://github.com/kuangliu/pytorch-cifar
 - https://github.com/Cadene/pretrained-models.pytorch
 - http://rodrigob.github.io/are_we_there_yet/build/classification_datasets_results.html
+
+
+
+## Acknowledgments
+
+
+
+
+
+
+
+
+
 
