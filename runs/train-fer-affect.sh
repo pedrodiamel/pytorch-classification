@@ -3,32 +3,32 @@
 # parameters
 DATA=$HOME/.datasets
 NAMEDATASET='affectnet' #affectnet, affectnetdark
-PROJECT='../out/netruns'
-EPOCHS=150
+PROJECT='../out/baselinenetruns'
+EPOCHS=60
 BATCHSIZE=128
 LEARNING_RATE=0.0001
 MOMENTUM=0.9
-PRINT_FREQ=100
-WORKERS=16
+PRINT_FREQ=75
+WORKERS=0
 RESUME='chk000000.pth.tar'
 GPU=0
-ARCH='preactresnet18'
+ARCH='dexpression' #preactresnet18, fmp, cvgg13, resnet18, alexnet, dexpression
 LOSS='cross'
 OPT='adam'
 SCHEDULER='fixed'
-SNAPSHOT=5
+SNAPSHOT=10
 NUMCLASS=8
 NUMCHANNELS=3
-IMAGESIZE=32
+IMAGESIZE=224
 EXP_NAME='baseline_'$ARCH'_'$LOSS'_'$OPT'_'$NAMEDATASET'_weights_000'
 
-rm -rf $PROJECT/$EXP_NAME/$EXP_NAME.log
-rm -rf $PROJECT/$EXP_NAME/
-mkdir $PROJECT
-mkdir $PROJECT/$EXP_NAME
+# rm -rf $PROJECT/$EXP_NAME/$EXP_NAME.log
+# rm -rf $PROJECT/$EXP_NAME/
+# mkdir $PROJECT
+# mkdir $PROJECT/$EXP_NAME
 
 ## execute
-CUDA_VISIBLE_DEVICES=0 python ../train.py \
+CUDA_VISIBLE_DEVICES=0,1,2,3 python ../train.py \
 $DATA \
 --project=$PROJECT \
 --name=$EXP_NAME \
