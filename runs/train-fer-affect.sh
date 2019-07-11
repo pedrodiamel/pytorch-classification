@@ -2,25 +2,25 @@
 
 # parameters
 DATA=$HOME/.datasets
-NAMEDATASET='affectnet'
+NAMEDATASET='affectnet' # affectnetdark, affectnet
 PROJECT='../out/netruns'
 EPOCHS=150
 BATCHSIZE=128
 LEARNING_RATE=0.0001
 MOMENTUM=0.9
 PRINT_FREQ=100
-WORKERS=10
+WORKERS=20
 RESUME='chk000000.pth.tar'
 GPU=0
-ARCH='preactresnet18'
+ARCH='dexpression' #preactresnet18, dexpression
 LOSS='cross'
 OPT='adam'
-SCHEDULER='step'
+SCHEDULER='fixed'
 SNAPSHOT=5
 NUMCLASS=8
 NUMCHANNELS=3
-IMAGESIZE=32
-EXP_NAME='baseline_'$ARCH'_'$LOSS'_'$OPT'_'$NAMEDATASET'_000'
+IMAGESIZE=224
+EXP_NAME='baseline_'$ARCH'_'$LOSS'_'$OPT'_'$NAMEDATASET'_weights_000'
 
 rm -rf $PROJECT/$EXP_NAME/$EXP_NAME.log
 rm -rf $PROJECT/$EXP_NAME/
@@ -28,7 +28,7 @@ mkdir $PROJECT
 mkdir $PROJECT/$EXP_NAME
 
 ## execute
-python ../train.py \
+CUDA_VISIBLE_DEVICES=0 python ../train.py \
 $DATA \
 --project=$PROJECT \
 --name=$EXP_NAME \
