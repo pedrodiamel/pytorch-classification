@@ -172,8 +172,7 @@ def main():
     labels, counts = np.unique(train_data.labels, return_counts=True)
     weights = 1/(counts/counts.sum())        
     samples_weights = np.array([ weights[ x ]  for x in train_data.labels ])    
-    
-    
+        
     num_train = len(train_data)
     #sampler = SubsetRandomSampler(np.random.permutation( num_train ) ) 
     sampler = WeightedRandomSampler( weights=samples_weights, num_samples=len(samples_weights) , replacement=True )
