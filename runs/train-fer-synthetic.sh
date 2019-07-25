@@ -3,7 +3,7 @@
 # parameters
 DATABACK='~/.datasets/coco'
 DATA='~/.datasets'
-NAMEDATASET='affectnetdark' #affectnetdark,  
+NAMEDATASET='affectnetdark' #affectnetdark, ckdark, bu3dfedark
 PROJECT='../out/netruns'
 EPOCHS=150
 BATCHSIZE=128

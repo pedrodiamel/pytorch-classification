@@ -11,10 +11,10 @@ from pytvision.transforms import transforms as mtrans
 #    )
 
 # cifar10
-normalize = mtrans.ToMeanNormalization(
-    mean = (0.4914, 0.4822, 0.4465), #[x / 255 for x in [125.3, 123.0, 113.9]],
-    std  = (0.2023, 0.1994, 0.2010), #[x / 255 for x in [63.0, 62.1, 66.7]],
-    )
+# normalize = mtrans.ToMeanNormalization(
+#     mean = (0.4914, 0.4822, 0.4465), #[x / 255 for x in [125.3, 123.0, 113.9]],
+#     std  = (0.2023, 0.1994, 0.2010), #[x / 255 for x in [63.0, 62.1, 66.7]],
+#     )
 
 # cifar100
 #normalize = mtrans.ToMeanNormalization(
@@ -28,7 +28,7 @@ normalize = mtrans.ToMeanNormalization(
 #    std = [x / 255 for x in [127.5, 127.5, 127.5]],
 #    )
 
-# normalize = mtrans.ToNormalization()
+normalize = mtrans.ToNormalization()
 
 def get_transforms_aug( size_input ):        
     return transforms.Compose([
@@ -59,13 +59,7 @@ def get_transforms_aug( size_input ):
         #        
         mtrans.ToResize( (size_input+5, size_input+5), resize_mode='square', padding_mode=cv2.BORDER_REFLECT ),
         mtrans.RandomCrop( (size_input, size_input), limit=2, padding_mode=cv2.BORDER_REFLECT  ),         
-        
-        
-        #------------------------------------------------------------------
-        #Resize
-        mtrans.ToResize( (size_input+5, size_input+5), resize_mode='square', padding_mode=cv2.BORDER_REFLECT ),
-        mtrans.RandomCrop( (size_input, size_input), limit=2, padding_mode=cv2.BORDER_REPLICATE  ), 
-        
+                
 
         #------------------------------------------------------------------
         mtrans.ToGrayscale(),

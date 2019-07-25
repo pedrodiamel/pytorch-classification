@@ -2,24 +2,24 @@
 
 # parameters
 DATA=$HOME/.datasets
-NAMEDATASET='ck'
+NAMEDATASET='bu3dfe'
 PROJECT='../out/netruns'
-EPOCHS=1000
+EPOCHS=60
 BATCHSIZE=128 #128
 LEARNING_RATE=0.0001
 MOMENTUM=0.9
 PRINT_FREQ=100
-WORKERS=0
+WORKERS=10
 RESUME='chk000000.pth.tar'
 GPU=0
-ARCH='preactresnet18'
+ARCH='resnet18' #preactresnet18, fmp, cvgg13, resnet18, alexnet, dexpression
 LOSS='cross'
 OPT='adam'
-SCHEDULER='step'
+SCHEDULER='fixed'
 SNAPSHOT=50
-NUMCLASS=8
+NUMCLASS=7
 NUMCHANNELS=3
-IMAGESIZE=64 #preactresnet18:32, Resnet18:224, 
+IMAGESIZE=224 #preactresnet18:32, Resnet18:224, 
 KFOLD=0
 NACTOR=10
 EXP_NAME='ferbase_'$ARCH'_'$LOSS'_'$OPT'_real_'$NAMEDATASET'_fold'$KFOLD'_000'
@@ -30,11 +30,13 @@ mkdir $PROJECT
 mkdir $PROJECT/$EXP_NAME
 
 ## execute
-python ../train.py \
+CUDA_VISIBLE_DEVICES=0,1 python ../train.py \
 $DATA \
 --project=$PROJECT \
 --name=$EXP_NAME \
 --epochs=$EPOCHS \
+--kfold=$KFOLD \
+--nactor=$NACTOR \
 --batch-size=$BATCHSIZE \
 --learning-rate=$LEARNING_RATE \
 --momentum=$MOMENTUM \

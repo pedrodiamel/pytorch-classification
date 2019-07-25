@@ -199,7 +199,7 @@ class NeuralNetClassifier(NeuralNetAbstract):
 
                 if i % self.print_freq == 0:
                     self.logger_val.logger(
-                        epoch, epoch, i,len(data_loader), 
+                        epoch, epoch, i, len(data_loader), 
                         batch_time, 
                         bplotter=False,
                         bavg=True, 

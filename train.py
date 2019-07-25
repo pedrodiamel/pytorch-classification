@@ -47,6 +47,12 @@ def arg_parser():
                         help='number of total epochs to run')
     parser.add_argument('--start-epoch', default=0, type=int, metavar='N',
                         help='manual epoch number (useful on restarts)')
+    
+    parser.add_argument('--kfold', default=0, type=int, metavar='N',
+                        help='k fold')
+    parser.add_argument('--nactor', default=0, type=int, metavar='N',
+                        help='number of the actores')    
+    
     parser.add_argument('-b', '--batch-size', default=256, type=int, metavar='N', 
                         help='mini-batch size (default: 256)')
     parser.add_argument('--lr', '--learning-rate', default=0.0001, type=float, metavar='LR',
@@ -133,8 +139,8 @@ def main():
     print('Load model: ')
     print(network)
 
-    kfold=0 #args.kfold
-    nactores=10 #args.nactor
+    kfold=args.kfold
+    nactores=args.nactor
     idenselect = np.arange(nactores) + kfold*nactores
 
     
@@ -147,7 +153,7 @@ def main():
             subset=FactoryDataset.training, 
             #idenselect=idenselect,
             download=True ),
-        #count=100000,
+        #count=28800,
         num_channels=network.num_input_channels,
         transform=get_transforms_aug( network.size_input ), #get_transforms_aug
         )
@@ -156,11 +162,7 @@ def main():
     labels, counts = np.unique(train_data.labels, return_counts=True)
     weights = 1/(counts/counts.sum())        
     samples_weights = np.array([ weights[ x ]  for x in train_data.labels ])    
-
-    labels, counts = np.unique(train_data.labels, return_counts=True)
-    weights = 1/(counts/counts.sum())        
-    samples_weights = np.array([ weights[ x ]  for x in train_data.labels ])   
-    
+        
     num_train = len(train_data)
     sampler = WeightedRandomSampler( weights=samples_weights, num_samples=len(samples_weights), replacement=True )
     #sampler = SubsetRandomSampler(np.random.permutation( num_train ) ) 
@@ -175,7 +177,7 @@ def main():
             subset=FactoryDataset.validation, 
             #idenselect=idenselect,
             download=True ),
-        #count=10000,
+        #count=2880,
         num_channels=network.num_input_channels,
         transform=get_transforms_det( network.size_input ),
         )
