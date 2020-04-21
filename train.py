@@ -31,9 +31,9 @@ from argparse import ArgumentParser
 import datetime
 
 def arg_parser():
-    """Arg parser"""    
+    """Arg parser"""
     parser = ArgumentParser()
-    parser.add_argument('data', metavar='DIR', 
+    parser.add_argument('data', metavar='DIR',
                         help='path to dataset')
     parser.add_argument('--no-cuda', action='store_true', default=False,
                         help='enables CUDA training')
@@ -47,13 +47,11 @@ def arg_parser():
                         help='number of total epochs to run')
     parser.add_argument('--start-epoch', default=0, type=int, metavar='N',
                         help='manual epoch number (useful on restarts)')
-    
     parser.add_argument('--kfold', default=0, type=int, metavar='N',
                         help='k fold')
     parser.add_argument('--nactor', default=0, type=int, metavar='N',
-                        help='number of the actores')    
-    
-    parser.add_argument('-b', '--batch-size', default=256, type=int, metavar='N', 
+                        help='number of the actores')
+    parser.add_argument('-b', '--batch-size', default=256, type=int, metavar='N',
                         help='mini-batch size (default: 256)')
     parser.add_argument('--lr', '--learning-rate', default=0.0001, type=float, metavar='LR',
                         help='initial learning rate')
@@ -94,17 +92,17 @@ def arg_parser():
 
 
 def main():
-    
+
     # parameters
-    parser = arg_parser();
-    args = parser.parse_args();
+    parser = arg_parser()
+    args = parser.parse_args()
     random.seed(0)
-    
+
     print('Baseline clasification {}!!!'.format(datetime.datetime.now()))
     print('\nArgs:')
     [ print('\t* {}: {}'.format(k,v) ) for k,v in vars(args).items() ]
     print('')
-    
+
     network = NeuralNetClassifier(
         patchproject=args.project,
         nameproject=args.name,
@@ -115,12 +113,12 @@ def main():
         gpu=args.gpu
         )
 
-    network.create( 
-        arch=args.arch, 
-        num_output_channels=args.num_classes, 
-        num_input_channels=args.channels, 
-        loss=args.loss, 
-        lr=args.lr, 
+    network.create(
+        arch=args.arch,
+        num_output_channels=args.num_classes,
+        num_input_channels=args.channels,
+        loss=args.loss,
+        lr=args.lr,
         momentum=args.momentum,
         optimizer=args.opt,
         lrsch=args.scheduler,
@@ -128,7 +126,7 @@ def main():
         topk=(1, ),
         size_input=args.image_size,
         )
-    
+
     cudnn.benchmark = True
 
     # resume model
@@ -143,57 +141,57 @@ def main():
     nactores=args.nactor
     idenselect = np.arange(nactores) + kfold*nactores
 
-    
+
     # datasets
     # training dataset
     train_data = Dataset(
         data=FactoryDataset.factory(
-            pathname=args.data, 
-            name=args.name_dataset, 
-            subset=FactoryDataset.training, 
+            pathname=args.data,
+            name=args.name_dataset,
+            subset=FactoryDataset.training,
             #idenselect=idenselect,
             download=True ),
         #count=28800,
         num_channels=network.num_input_channels,
-        transform=get_transforms_aug( network.size_input ), #get_transforms_aug
+        transform=get_transforms_aug( network.size_input ),
         )
-    
-    
+
+
     labels, counts = np.unique(train_data.labels, return_counts=True)
-    weights = 1/(counts/counts.sum())        
-    samples_weights = np.array([ weights[ x ]  for x in train_data.labels ])    
-        
+    weights = 1/(counts/counts.sum())
+    samples_weights = np.array([ weights[ x ]  for x in train_data.labels ])
+
     num_train = len(train_data)
     sampler = WeightedRandomSampler( weights=samples_weights, num_samples=len(samples_weights), replacement=True )
-    #sampler = SubsetRandomSampler(np.random.permutation( num_train ) ) 
-    train_loader = DataLoader(train_data, batch_size=args.batch_size, 
+    #sampler = SubsetRandomSampler(np.random.permutation( num_train ) )
+    train_loader = DataLoader(train_data, batch_size=args.batch_size,
         sampler=sampler, num_workers=args.workers, pin_memory=network.cuda, drop_last=True)
-    
+
     # validate dataset
     val_data = Dataset(
         data=FactoryDataset.factory(
-            pathname=args.data, 
-            name=args.name_dataset, 
-            subset=FactoryDataset.validation, 
+            pathname=args.data,
+            name=args.name_dataset,
+            subset=FactoryDataset.validation,
             #idenselect=idenselect,
             download=True ),
         #count=2880,
         num_channels=network.num_input_channels,
         transform=get_transforms_det( network.size_input ),
         )
-    
+
     num_val = len(val_data)
-    val_loader = DataLoader(val_data, batch_size=args.batch_size, 
+    val_loader = DataLoader(val_data, batch_size=args.batch_size,
         shuffle=False, num_workers=args.workers, pin_memory=network.cuda, drop_last=False)
-       
-        
+
+
     print('Load datset')
     print('Train: ', len(train_data))
     print('Val: ', len(val_data))
-    
+
     # training neural net
     network.fit( train_loader, val_loader, args.epochs, args.snapshot )
-    
+
     print("Optimization Finished!")
     print("DONE!!!")
 
