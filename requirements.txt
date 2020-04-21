@@ -1,0 +1,13 @@
+numpy
+matplotlib
+graphviz
+six
+tqdm
+scipy
+visdom
+opencv-python
+scikit-image
+sklearn
+jupyter
+flask==1.1.1
+gunicorn==20.0.4
