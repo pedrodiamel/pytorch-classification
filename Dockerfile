@@ -31,9 +31,9 @@ RUN /opt/conda/bin/conda install pytorch torchvision cudatoolkit=10.1 -c pytorch
 WORKDIR /opt
 RUN git clone https://github.com/pedrodiamel/pytorchvision.git && cd pytorchvision && python setup.py install
 
+WORKDIR /.datasets
+RUN chmod -R a+w .
+
 WORKDIR /workspace
 COPY . .
 RUN pip install -r requirements.txt
-
-WORKDIR /.datasets
-RUN chmod -R a+w .

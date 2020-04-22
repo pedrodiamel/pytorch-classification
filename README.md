@@ -28,6 +28,11 @@ To use Visdom in the browser:
     # http://localhost:8097/
 
 
+### Docker
+
+    docker build -f "Dockerfile" -t pytclassify:latest .
+    docker run -ti --privileged --ipc=host --name pytclassifymc -p 8888:8888 -p 8889:8889 -p localhost:8097:localhost:8097 -v $HOME/.datasets:/.datasets pytclassify:latest /bin/bash
+
 
 ## Accuracy
 
@@ -36,10 +41,7 @@ To use Visdom in the browser:
 | PreActResNet18    | 95.36%      | 77.02%      |  87.25      | 43.0        |
 | PreActResNet34    | 95.72%      | 78.83%      |             |             |
 
-
-
-## FER problem
-### Test in Fer+ dataset
+## Accuracy FER problem
 
 | Model             | Ferp(test)        | AffectNet(val)  | Ckp         | Jaffe      | BU3DFE       | Models      |
 | ----------------- | ----------------- | --------------- | ----------- | ---------- | ------------ |------------ |
@@ -49,7 +51,6 @@ To use Visdom in the browser:
 | ResNet18          | 87,695            | 34,400          | 71,508      | 50,746     | 45,345       |             |
 | AlexNet           | 86,038            | 35,075          | 70,670      | 64,401     | 46,379       |             |
 | DeXpression       | 79,694            | 31,875          | 51,117      | 44,279     | 37,241       |             |
-
 
 
 

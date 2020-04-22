@@ -9,6 +9,7 @@ opencv-python
 scikit-image
 sklearn
 scikit-fmm
+pandas
 h5py
 jupyter
 flask==1.1.1
