@@ -1,15 +1,15 @@
 # Pytorch Classification
 
-This project were created for training single classification models. 
+This project were created for training single classification models.
 
 
 ## Training
-    
+
     cd runs
     bash train-[dataset].sh
 
 
-## Installation 
+## Installation
 
     $git clone https://github.com/pedrodiamel/pytorchvision.git
     $cd pytorchvision
@@ -21,7 +21,7 @@ We now support Visdom for real-time loss visualization during training!
 
 To use Visdom in the browser:
 
-    # First install Python server and client 
+    # First install Python server and client
     pip install visdom
     # Start the server (probably in a screen or tmux)
     python -m visdom.server -env_path runs/visdom/
@@ -29,20 +29,26 @@ To use Visdom in the browser:
 
 
 
+## Accuracy
+
+| Model             | CIFAR10     | CIFAR100    | FERp        | Affect      |
+| ----------------- | ----------- | ----------- | ----------- | ----------- |
+| PreActResNet18    | 95.36%      | 77.02%      |  87.25      | 43.0        |
+| PreActResNet34    | 95.72%      | 78.83%      |             |             |
+
+
 
 ## FER problem
-
-### Training in Fer+ dataset
-
+### Test in Fer+ dataset
 
 | Model             | Ferp(test)        | AffectNet(val)  | Ckp         | Jaffe      | BU3DFE       | Models      |
 | ----------------- | ----------------- | --------------- | ----------- | ---------- | ------------ |------------ |
 | PreActResNet18    | 82.372            | 26,100          | 55,307      | 36,318     | 39,828       |             |
-| FMPNet            | 79,535            | 29,200          | 65,363      | 46,766     | 41,379       |             | 
+| FMPNet            | 79,535            | 29,200          | 65,363      | 46,766     | 41,379       |             |
 | CVGG              | 84,316            | 31,150          | 66,201      | 46,269     | 42,069       |             |
 | ResNet18          | 87,695            | 34,400          | 71,508      | 50,746     | 45,345       |             |
-| AlexNet           | 86,038            | 35,075          | 70,670      | 64,401     | 46,379       |             | 
-| DeXpression       | 79,694            | 31,875          | 51,117      | 44,279     | 37,241       |             |  
+| AlexNet           | 86,038            | 35,075          | 70,670      | 64,401     | 46,379       |             |
+| DeXpression       | 79,694            | 31,875          | 51,117      | 44,279     | 37,241       |             |
 
 
 
@@ -56,13 +62,3 @@ To use Visdom in the browser:
 
 
 ## Acknowledgments
-
-
-
-
-
-
-
-
-
-

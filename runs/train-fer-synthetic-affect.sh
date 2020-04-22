@@ -20,7 +20,7 @@ SCHEDULER='fixed'
 SNAPSHOT=50
 NUMCLASS=8
 NUMCHANNELS=3
-IMAGESIZE=224 
+IMAGESIZE=224
 KFOLD=0
 NACTOR=10
 EXP_NAME='baseline_'$ARCH'_'$LOSS'_'$OPT'_'$NAMEDATASET'_fold'$KFOLD'_weights_000'
@@ -33,7 +33,7 @@ EXP_NAME='baseline_'$ARCH'_'$LOSS'_'$OPT'_'$NAMEDATASET'_fold'$KFOLD'_weights_00
 # mkdir $PROJECT/$EXP_NAME
 
 ## execute
-CUDA_VISIBLE_DEVICES=0,1 python ../train_fersynthetic.py \
+CUDA_VISIBLE_DEVICES=0,1 python ../train_fer_synthetic.py \
 $DATA \
 --databack=$DATABACK \
 --name-dataset=$NAMEDATASET \
@@ -60,4 +60,3 @@ $DATA \
 --parallel \
 --finetuning \
 2>&1 | tee -a $PROJECT/$EXP_NAME/$EXP_NAME.log \
-

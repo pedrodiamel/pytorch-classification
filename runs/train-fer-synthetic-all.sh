@@ -8,7 +8,7 @@
 # parameters
 DATABACK='~/.datasets/coco'
 DATA='~/.datasets'
-NAMEDATASET=$1  
+NAMEDATASET=$1
 PROJECT='../out/expnetruns'
 EPOCHS=1 # 150
 BATCHSIZE=128
@@ -39,9 +39,9 @@ mkdir $PROJECT/$EXP_NAME
 echo $EXP_NAME
 
 
-# CUDA_VISIBLE_DEVICES=0 
+# CUDA_VISIBLE_DEVICES=0
 ## execute
-CUDA_VISIBLE_DEVICES=0,1  python ../train_fersynthetic.py \
+CUDA_VISIBLE_DEVICES=0,1  python ../train_fer_synthetic.py \
 $DATA \
 --databack=$DATABACK \
 --name-dataset=$NAMEDATASET \
@@ -68,4 +68,3 @@ $DATA \
 --parallel \
 --finetuning \
 2>&1 | tee -a $PROJECT/$EXP_NAME/$EXP_NAME.log \
-

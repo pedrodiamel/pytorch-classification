@@ -31,7 +31,7 @@ mkdir $PROJECT
 mkdir $PROJECT/$EXP_NAME
 
 ## execute
-CUDA_VISIBLE_DEVICES=0,1,2,3 python ../train_fersynthetic.py \
+CUDA_VISIBLE_DEVICES=0,1,2,3 python ../train_fer_synthetic.py \
 $DATA \
 --databack=$DATABACK \
 --name-dataset=$NAMEDATASET \
@@ -58,4 +58,3 @@ $DATA \
 --parallel \
 --finetuning \
 2>&1 | tee -a $PROJECT/$EXP_NAME/$EXP_NAME.log \
-
