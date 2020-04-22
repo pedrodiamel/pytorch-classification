@@ -63,6 +63,7 @@ class FactoryDataset(object):
         pathname,
         name,
         subset='train',
+        idenselect=[],
         download=False,
         transform=None,
         ):
@@ -164,17 +165,17 @@ class FactoryDataset(object):
         elif name == 'ckp':
             btrain=(subset=='train')
             pathname = create_folder(pathname, name)
-            data = fer.FERClassicDataset(pathname, 'ckp', idenselect=[], train=btrain )
+            data = fer.FERClassicDataset(pathname, 'ckp', idenselect=idenselect, train=btrain )
 
         elif name == 'jaffe':
             btrain=(subset=='train')
             pathname = create_folder(pathname, name)
-            data = fer.FERClassicDataset(pathname, 'jaffe', idenselect=[], train=btrain )
+            data = fer.FERClassicDataset(pathname, 'jaffe', idenselect=idenselect, train=btrain )
  
         elif name == 'bu3dfe':
             btrain=(subset=='train')
             pathname = create_folder(pathname, name) 
-            idenselect = np.array([0,1,2,3,4,5,6,7,8,9]) + 0
+            #idenselect = np.array([0,1,2,3,4,5,6,7,8,9]) + 0
             data = fer.FERClassicDataset(pathname, 'bu3dfe', idenselect=idenselect, train=btrain )
             
         elif name == 'afew':  
@@ -191,7 +192,7 @@ class FactoryDataset(object):
         elif name == 'ferblack': 
             btrain=(subset=='train')
             pathname = create_folder(pathname, name) 
-            data = ferfolder.FERFolderDataset(pathname, train=btrain, download=download)        
+            data = ferfolder.FERFolderDataset(pathname, train=btrain, idenselect=idenselect, download=download)        
             data.labels = np.array( data.targets )
             
 

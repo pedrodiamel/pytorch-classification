@@ -2,25 +2,25 @@
 
 # parameters
 DATA=$HOME/.datasets
-NAMEDATASET='ferp'
-PROJECT='../out/netruns'
-EPOCHS=1000
+NAMEDATASET='affectnet' #ferp, affectnet
+PROJECT='../out/baselinenetruns'
+EPOCHS=150
 BATCHSIZE=128
-LEARNING_RATE=0.1
+LEARNING_RATE=0.0001
 MOMENTUM=0.9
-PRINT_FREQ=100
-WORKERS=10
-RESUME='chk000000.pth.tar'
+PRINT_FREQ=75
+WORKERS=20
+RESUME='chk000149.pth.tar'
 GPU=0
-ARCH='preactresnet18'
+ARCH='ferattentionstn' #preactresnet18, fmp, cvgg13, resnet18, alexnet, dexpression, ferattention, ferattentionstn
 LOSS='cross'
-OPT='sgd'
+OPT='adam'
 SCHEDULER='step'
-SNAPSHOT=5
+SNAPSHOT=10
 NUMCLASS=8
 NUMCHANNELS=3
-IMAGESIZE=48
-EXP_NAME='baseline_'$ARCH'_'$LOSS'_'$OPT'_'$NAMEDATASET'_006'
+IMAGESIZE=64
+EXP_NAME='baseline_'$ARCH'_'$LOSS'_'$OPT'_'$NAMEDATASET'_cvgg13_weights_norm_000'
 
 rm -rf $PROJECT/$EXP_NAME/$EXP_NAME.log
 rm -rf $PROJECT/$EXP_NAME/
@@ -28,7 +28,7 @@ mkdir $PROJECT
 mkdir $PROJECT/$EXP_NAME
 
 ## execute
-python ../train.py \
+CUDA_VISIBLE_DEVICES=2,3 python ../train.py \
 $DATA \
 --project=$PROJECT \
 --name=$EXP_NAME \

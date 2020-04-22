@@ -2,25 +2,27 @@
 
 # parameters
 DATA=$HOME/.datasets
-NAMEDATASET='ferp'
+NAMEDATASET='bu3dfe'
 PROJECT='../out/netruns'
-EPOCHS=1000
-BATCHSIZE=128
-LEARNING_RATE=0.1
+EPOCHS=60
+BATCHSIZE=128 #128
+LEARNING_RATE=0.0001
 MOMENTUM=0.9
 PRINT_FREQ=100
 WORKERS=10
 RESUME='chk000000.pth.tar'
 GPU=0
-ARCH='preactresnet18'
+ARCH='resnet18' #preactresnet18, fmp, cvgg13, resnet18, alexnet, dexpression
 LOSS='cross'
-OPT='sgd'
-SCHEDULER='step'
-SNAPSHOT=5
-NUMCLASS=8
+OPT='adam'
+SCHEDULER='fixed'
+SNAPSHOT=50
+NUMCLASS=7
 NUMCHANNELS=3
-IMAGESIZE=48
-EXP_NAME='baseline_'$ARCH'_'$LOSS'_'$OPT'_'$NAMEDATASET'_006'
+IMAGESIZE=224 #preactresnet18:32, Resnet18:224, 
+KFOLD=0
+NACTOR=10
+EXP_NAME='ferbase_'$ARCH'_'$LOSS'_'$OPT'_real_'$NAMEDATASET'_fold'$KFOLD'_000'
 
 rm -rf $PROJECT/$EXP_NAME/$EXP_NAME.log
 rm -rf $PROJECT/$EXP_NAME/
@@ -28,11 +30,13 @@ mkdir $PROJECT
 mkdir $PROJECT/$EXP_NAME
 
 ## execute
-python ../train.py \
+CUDA_VISIBLE_DEVICES=0,1 python ../train.py \
 $DATA \
 --project=$PROJECT \
 --name=$EXP_NAME \
 --epochs=$EPOCHS \
+--kfold=$KFOLD \
+--nactor=$NACTOR \
 --batch-size=$BATCHSIZE \
 --learning-rate=$LEARNING_RATE \
 --momentum=$MOMENTUM \
@@ -49,7 +53,7 @@ $DATA \
 --name-dataset=$NAMEDATASET \
 --channels=$NUMCHANNELS \
 --image-size=$IMAGESIZE \
---finetuning \
 --parallel \
+--finetuning \
 2>&1 | tee -a $PROJECT/$EXP_NAME/$EXP_NAME.log \
 

@@ -1,5 +1,4 @@
 
-
 # STD MODULE
 import os
 import numpy as np
@@ -17,18 +16,18 @@ import torch.backends.cudnn as cudnn
 from pytvision.datasets.datasets import Dataset
 from pytvision.datasets.factory import FactoryDataset
 from pytvision.transforms import transforms as mtrans
+from pytvision.datasets.datasets import Dataset
+from pytvision.datasets.factory import FactoryDataset
 from pytvision import visualization as view
 
 
 # LOCAL MODULE
-# from torchlib.datasets.datasets  import Dataset
-# from torchlib.datasets.factory  import FactoryDataset
 from torchlib.neuralnet import NeuralNetClassifier
 from misc import get_transforms_aug, get_transforms_det
 
-
 from argparse import ArgumentParser
 import datetime
+
 
 def arg_parser():
     """Arg parser"""
@@ -47,6 +46,10 @@ def arg_parser():
                         help='number of total epochs to run')
     parser.add_argument('--start-epoch', default=0, type=int, metavar='N',
                         help='manual epoch number (useful on restarts)')
+    parser.add_argument('--kfold', default=0, type=int, metavar='N',
+                        help='k fold')
+    parser.add_argument('--nactor', default=0, type=int, metavar='N',
+                        help='number of the actores')
     parser.add_argument('-b', '--batch-size', default=256, type=int, metavar='N',
                         help='mini-batch size (default: 256)')
     parser.add_argument('--lr', '--learning-rate', default=0.0001, type=float, metavar='LR',
@@ -83,20 +86,21 @@ def arg_parser():
                         help='name dataset')
     parser.add_argument('--channels', default=1, type=int, metavar='N',
                         help='input channel (default: 1)')
-
+    parser.add_argument('--balance', action='store_true', default=False,
+                        help='balance data')
     return parser
 
 
 def main():
 
     # parameters
-    parser = arg_parser();
-    args = parser.parse_args();
+    parser = arg_parser()
+    args = parser.parse_args()
     random.seed(0)
 
     print('Baseline clasification {}!!!'.format(datetime.datetime.now()))
     print('\nArgs:')
-    [ print('\t* {}: {}'.format(k,v) ) for k,v in vars(args).items() ]
+    [print('\t* {}: {}'.format(k, v)) for k, v in vars(args).items()]
     print('')
 
     network = NeuralNetClassifier(
@@ -107,7 +111,7 @@ def main():
         seed=args.seed,
         print_freq=args.print_freq,
         gpu=args.gpu
-        )
+    )
 
     network.create(
         arch=args.arch,
@@ -121,25 +125,21 @@ def main():
         pretrained=args.finetuning,
         topk=(1, ),
         size_input=args.image_size,
-        )
+    )
 
     cudnn.benchmark = True
 
     # resume model
     if args.resume:
-        network.resume( os.path.join(network.pathmodels, args.resume ) )
+        network.resume(os.path.join(network.pathmodels, args.resume))
 
     # print neural net class
     print('Load model: ')
     print(network)
 
-
-    #train_transform = transforms.Compose(
-    #[
-    #    transforms.RandomCrop( network.size_input , padding=4 ),
-    #    transforms.RandomHorizontalFlip(),
-    #
-    #])
+    kfold = args.kfold
+    nactores = args.nactor
+    idenselect = np.arange(nactores) + kfold*nactores
 
     # datasets
     # training dataset
@@ -148,25 +148,25 @@ def main():
             pathname=args.data,
             name=args.name_dataset,
             subset=FactoryDataset.training,
-            #transform=train_transform,
-            download=True ),
-        #count=100000,
+            # idenselect=idenselect,
+            download=True),
+        # count=28800,
         num_channels=network.num_input_channels,
-        transform=get_transforms_aug( network.size_input ), #get_transforms_aug
-        )
+        transform=get_transforms_aug(network.size_input),
+    )
 
-
-
-    labels, counts = np.unique(train_data.labels, return_counts=True)
-    weights = 1/(counts/counts.sum())
-    samples_weights = np.array([ weights[ x ]  for x in train_data.labels ])
-
-#     num_train = len(train_data)
-#     sampler = SubsetRandomSampler(np.random.permutation( num_train ) )
-    sampler = WeightedRandomSampler( weights=samples_weights, num_samples=len(samples_weights) , replacement=True )
+    num_train = len(train_data)
+    if args.balance:
+        labels, counts = np.unique(train_data.labels, return_counts=True)
+        weights = 1/(counts/counts.sum())
+        samples_weights = np.array([weights[x] for x in train_data.labels])
+        sampler = WeightedRandomSampler(
+            weights=samples_weights, num_samples=len(samples_weights), replacement=True)
+    else:
+        sampler = SubsetRandomSampler(np.random.permutation( num_train ) )
 
     train_loader = DataLoader(train_data, batch_size=args.batch_size,
-        sampler=sampler, num_workers=args.workers, pin_memory=network.cuda, drop_last=True)
+                              sampler=sampler, num_workers=args.workers, pin_memory=network.cuda, drop_last=True)
 
     # validate dataset
     val_data = Dataset(
@@ -174,27 +174,26 @@ def main():
             pathname=args.data,
             name=args.name_dataset,
             subset=FactoryDataset.validation,
-            download=True ),
+            # idenselect=idenselect,
+            download=True),
+        # count=2880,
         num_channels=network.num_input_channels,
-        transform=get_transforms_det( network.size_input ),
-        )
+        transform=get_transforms_det(network.size_input),
+    )
 
     num_val = len(val_data)
     val_loader = DataLoader(val_data, batch_size=args.batch_size,
-        shuffle=False, num_workers=args.workers, pin_memory=network.cuda, drop_last=False)
-
+                            shuffle=False, num_workers=args.workers, pin_memory=network.cuda, drop_last=False)
 
     print('Load datset')
     print('Train: ', len(train_data))
     print('Val: ', len(val_data))
 
     # training neural net
-    network.fit( train_loader, val_loader, args.epochs, args.snapshot )
+    network.fit(train_loader, val_loader, args.epochs, args.snapshot)
 
     print("Optimization Finished!")
     print("DONE!!!")
-
-
 
 if __name__ == '__main__':
     main()
