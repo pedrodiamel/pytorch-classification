@@ -2,12 +2,10 @@
 
 This project were created for training single classification models.
 
-
 ## Training
 
     cd runs
     bash train-[dataset].sh
-
 
 ## Installation
 
@@ -24,15 +22,13 @@ To use Visdom in the browser:
     # First install Python server and client
     pip install visdom
     # Start the server (probably in a screen or tmux)
-    python -m visdom.server -env_path runs/visdom/
-    # http://localhost:8097/
-
+    python -m visdom.server -env_path out/runs/visdom/ -port 6006
+    # http://localhost:6006/
 
 ### Docker
 
     docker build -f "Dockerfile" -t pytclassify:latest .
     docker run -ti --privileged --ipc=host --name pytclassifymc -p 8888:8888 -p 8889:8889 -p localhost:8097:localhost:8097 -v $HOME/.datasets:/.datasets pytclassify:latest /bin/bash
-
 
 ## Accuracy
 
@@ -52,13 +48,10 @@ To use Visdom in the browser:
 | AlexNet           | 86,038            | 35,075          | 70,670      | 64,401     | 46,379       |             |
 | DeXpression       | 79,694            | 31,875          | 51,117      | 44,279     | 37,241       |             |
 
-
-
 ## Ref
 
-- https://github.com/kuangliu/pytorch-cifar
-- https://github.com/Cadene/pretrained-models.pytorch
-- http://rodrigob.github.io/are_we_there_yet/build/classification_datasets_results.html
-
+- <https://github.com/kuangliu/pytorch-cifar>
+- <https://github.com/Cadene/pretrained-models.pytorch>
+- <http://rodrigob.github.io/are_we_there_yet/build/classification_datasets_results.html>
 
 ## Acknowledgments
