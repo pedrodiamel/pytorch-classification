@@ -7,7 +7,7 @@ scipy
 visdom
 opencv-python
 scikit-image
-sklearn
+scikit-learn
 scikit-fmm
 pandas
 h5py

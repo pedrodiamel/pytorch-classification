@@ -1,10 +1,19 @@
-version: '3.4'
+version: '3.9'
 
 services:
-  pytorchclassification:
-    image: pytorchclassification
+  torchcls:
+    tty: true
+    container_name: torchcls-dev
+    image: torchcls
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ./Dockerfile
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all # or device number (e.g. 0) to allow a single gpu
     ports:
-      - 5000
+      - "8080:8080" # port for JupyterLab (or JupyterNotebook)
+      - "6006:6006" # tensrborad
+    volumes:
+      - .:/workspace/torchcls
+      - /thor/.datasets:/.datasets

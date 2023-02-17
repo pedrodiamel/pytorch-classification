@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # parameters
-DATA=$HOME/.datasets
+DATA=/.datasets
 NAMEDATASET='mnist'
 PROJECT='../out/netruns'
 EPOCHS=1000
