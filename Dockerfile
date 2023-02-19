@@ -50,7 +50,7 @@ ENV PATH $HOME/conda/bin:$PATH
 
 RUN pip install --upgrade pip
 RUN pip install flake8 typing mypy pytest pytest-mock
-RUN pip install ufmt==2.0.0 black==22.6.0 usort==1.0.4
+RUN pip install ufmt==1.3.2 black==22.3.0 usort==1.0.2
 
 WORKDIR /opt
 # RUN git clone -b pytorch.1.13.1 https://github.com/pedrodiamel/pytorchvision.git && cd pytorchvision && python setup.py install
