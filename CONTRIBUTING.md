@@ -17,6 +17,7 @@ The Python project code should be formatted by Black, and checked against Pep8 c
     pip install flake8 typing mypy pytest pytest-mock
     pip install ufmt==1.3.2 black==22.3.0 usort==1.0.2
     pip install pre-commit
+    python setup.py develop
 
 ### Code formatting
 

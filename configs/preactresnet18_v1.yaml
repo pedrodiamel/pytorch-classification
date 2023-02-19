@@ -1,0 +1,31 @@
+# @package _global_
+project:
+  path: /workspace/torchcls/out/netruns
+  name_prefix: torchcls
+  version: 0.02
+data:
+  path: /.datasets
+  name_dataset: mnist
+  epochs: 50
+  batch_size: 12
+  workers: 3
+  auto_balance: False
+trainer:
+  lr: 0.0001
+  momentun: 0.9
+  cuda: True
+  gpu: 0
+  parallel: False
+  arch: preactresnet18
+  loss: cross
+  opt: adam
+  scheduler: step
+  numclass: 2
+  numchannels: 3
+  image_size: 48
+  finetuning: True
+checkpoint:
+  resume: chk000000.pth.tar
+  verbose: True
+  print_freq: 10
+  snapshot: 5
