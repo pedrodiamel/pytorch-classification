@@ -47,6 +47,13 @@ class TrainConfig:
 
 
 @dataclass
+class AugmentationConfig:
+    transforms_train: Any = None
+    transforms_val: Any = None
+    transforms_test: Any = None
+
+
+@dataclass
 class Config:
     project: ProjectConfig = ProjectConfig()
     data: DataConfig = DataConfig()

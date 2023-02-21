@@ -6,7 +6,7 @@ project:
 data:
   path: /.datasets
   name_dataset: mnist
-  epochs: 50
+  epochs: 20
   batch_size: 12
   workers: 3
   auto_balance: False
@@ -20,12 +20,12 @@ trainer:
   loss: cross
   opt: adam
   scheduler: step
-  numclass: 2
+  numclass: 10
   numchannels: 3
   image_size: 48
   finetuning: True
 checkpoint:
-  resume: chk000000.pth.tar
+  resume: chk000009.pth.tar
   verbose: True
   print_freq: 10
   snapshot: 5
