@@ -2,12 +2,13 @@ import datetime
 import os
 import random
 
-import cv2
 import numpy as np
 
 # TORCH MODULE
-import torch
 import torch.backends.cudnn as cudnn
+
+# PYTVISION MODULE
+from pytvision.datasets.datasets import Dataset
 from torch.utils.data import DataLoader
 from torch.utils.data.sampler import SubsetRandomSampler, WeightedRandomSampler
 
@@ -15,10 +16,9 @@ from torch.utils.data.sampler import SubsetRandomSampler, WeightedRandomSampler
 from torchvision import transforms
 
 # LOCAL MODULES
-from .configs.train_config import Config
-from .datasets.factory import Dataset, FactoryDataset
+from .configs.train_config import AugmentationConfig, Config
+from .datasets.factory import FactoryDataset
 from .neuralnet import NeuralNetClassifier
-from .transforms import transforms as mtrans
 
 
 def remove_files(path):
@@ -29,7 +29,7 @@ def remove_files(path):
                 os.remove(file_path)
 
 
-def train(cfg: Config):
+def train(cfg: Config, aug: AugmentationConfig):
 
     print("NN Clasification {}!!!".format(datetime.datetime.now()))
     random.seed(cfg.seed)
@@ -106,32 +106,7 @@ def train(cfg: Config):
         ),
         count=1000,
         num_channels=network.num_input_channels,
-        transform=transforms.Compose(
-            [
-                mtrans.ToResize((48, 48), resize_mode="squash", padding_mode=cv2.BORDER_REPLICATE),
-                mtrans.RandomScale(factor=0.1, padding_mode=cv2.BORDER_REPLICATE),
-                # mtrans.ToRandomTransform(
-                #     mtrans.RandomGeometricalTransform(
-                #         angle=15, translation=0.1, warp=0.001, padding_mode=cv2.BORDER_REPLICATE
-                #     ),
-                #     prob=0.2,
-                # ),
-                mtrans.ToRandomTransform(mtrans.HFlip(), prob=0.5),
-                # Color transformation
-                # mtrans.ToRandomTransform( mtrans.RandomBrightness( factor=0.05 ), prob=0.50 ),
-                # mtrans.ToRandomTransform( mtrans.RandomContrast( factor=0.05 ), prob=0.50 ),
-                # mtrans.ToRandomTransform( mtrans.RandomGamma( factor=0.05 ), prob=0.50 ),
-                # mtrans.CLAHE(clipfactor=2.0, tileGridSize=(4, 4)),
-                mtrans.ToGrayscale(),
-                mtrans.ToResize(
-                    (size_input + 2, size_input + 2), resize_mode="squash", padding_mode=cv2.BORDER_REPLICATE
-                ),
-                mtrans.RandomCrop((size_input, size_input), limit=2, padding_mode=cv2.BORDER_REPLICATE),
-                # mtrans.ToEqNormalization([size_input, size_input]),
-                mtrans.ToTensor(),
-                mtrans.ToNormalization(),
-            ]
-        ),
+        transform=transforms.Compose(aug.transforms_train(size_input)),
     )
 
     num_train = len(train_data)
@@ -162,20 +137,7 @@ def train(cfg: Config):
         ),
         count=100,
         num_channels=network.num_input_channels,
-        transform=transforms.Compose(
-            [
-                mtrans.ToResize((size_input, size_input), resize_mode="squash", padding_mode=cv2.BORDER_REPLICATE),
-                # Color transformation
-                # mtrans.ToRandomTransform( mtrans.RandomBrightness( factor=0.05 ), prob=0.50 ),
-                # mtrans.ToRandomTransform( mtrans.RandomContrast( factor=0.05 ), prob=0.50 ),
-                # mtrans.ToRandomTransform( mtrans.RandomGamma( factor=0.05 ), prob=0.50 ),
-                # mtrans.CLAHE(clipfactor=2.0, tileGridSize=(4, 4)),
-                mtrans.ToGrayscale(),
-                # mtrans.ToEqNormalization([size_input, size_input]),
-                mtrans.ToTensor(),
-                mtrans.ToNormalization(),
-            ]
-        ),
+        transform=transforms.Compose(aug.transforms_val(size_input)),
     )
 
     val_loader = DataLoader(

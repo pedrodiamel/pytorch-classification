@@ -4,14 +4,17 @@ This project were created for training single classification models.
 
 ## Training
 
-    cd runs
-    bash train-[dataset].sh
+```bash
+python helper/train.py +configs=<CONFIG>
+```
 
 ## Installation
 
-    $git clone https://github.com/pedrodiamel/pytorchvision.git
-    $cd pytorchvision
-    $python setup.py install
+```bash
+$git clone https://github.com/pedrodiamel/pytorchvision.git
+$cd pytorchvision
+$python setup.py install
+```
 
 ### Training visualize
 
@@ -19,25 +22,45 @@ We now support Visdom for real-time loss visualization during training!
 
 To use Visdom in the browser:
 
-    # First install Python server and client
-    pip install visdom
-    # Start the server (probably in a screen or tmux)
-    python -m visdom.server -env_path out/runs/visdom/ -port 6006
-    # http://localhost:6006/
+```bash
+# First install Python server and client
+pip install visdom
+# Start the server (probably in a screen or tmux)
+python -m visdom.server -env_path out/runs/visdom/ -port 6006
+# http://localhost:6006/
+```
+
+For jupyter notebook
+
+```bash
+jupyter notebook --port 8080 --allow-root --ip 0.0.0.0 --no-browser
+```
 
 ### Docker
 
-    docker build -f "Dockerfile" -t pytclassify:latest .
-    docker run -ti --privileged --ipc=host --name pytclassifymc -p 8888:8888 -p 8889:8889 -p localhost:8097:localhost:8097 -v $HOME/.datasets:/.datasets pytclassify:latest /bin/bash
+```bash
+docker build -f "Dockerfile" -t torchcls:latest .
+docker run -ti --privileged --ipc=host --name torchcls-dev -p 8888:8888 -p 8889:8889 -p localhost:8097:localhost:8097 -v $HOME/.datasets:/.datasets torchcls:latest /bin/bash
+```
 
-## Accuracy
+### Dockercompose
+
+```bash
+docker-compose up --build -d
+docker-compose down
+docker exec -it torchcls-dev /bin/bash
+```
+
+## Benchmarking
+
+### Accuracy
 
 | Model             | CIFAR10     | CIFAR100    | FERp        | Affect      |
 | ----------------- | ----------- | ----------- | ----------- | ----------- |
 | PreActResNet18    | 95.36%      | 77.02%      |  87.25      | 43.0        |
 | PreActResNet34    | 95.72%      | 78.83%      |             |             |
 
-## Accuracy FER problem
+### Accuracy FER problem
 
 | Model             | Ferp(test)        | AffectNet(val)  | Ckp         | Jaffe      | BU3DFE       | Models      |
 | ----------------- | ----------------- | --------------- | ----------- | ---------- | ------------ |------------ |

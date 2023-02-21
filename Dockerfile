@@ -53,7 +53,7 @@ RUN pip install flake8 typing mypy pytest pytest-mock
 RUN pip install ufmt==1.3.2 black==22.3.0 usort==1.0.2
 
 WORKDIR /opt
-# RUN git clone -b pytorch.1.13.1 https://github.com/pedrodiamel/pytorchvision.git && cd pytorchvision && python setup.py install
+# RUN git clone https://github.com/pedrodiamel/pytorchvision.git && cd pytorchvision && python setup.py install
 
 ADD requirements.txt .
 RUN pip install -r requirements.txt
