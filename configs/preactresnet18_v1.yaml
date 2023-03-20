@@ -15,7 +15,7 @@ trainer:
   momentun: 0.9
   cuda: True
   gpu: 0
-  parallel: False
+  parallel: True
   arch: preactresnet18
   loss: cross
   opt: adam

@@ -10,7 +10,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from pytvision import graphic as gph, netlearningrate, netmodels as nnmodels, utils as pytutils
+from pytvision import graphic as gph, models as nnmodels, netlearningrate, utils as pytutils
 from pytvision.logger import AverageFilterMeter, AverageMeter, Logger
 
 # PYTVISION MODULE
