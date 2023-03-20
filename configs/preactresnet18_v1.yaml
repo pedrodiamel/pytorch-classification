@@ -1,6 +1,6 @@
 # @package _global_
 project:
-  path: /workspace/torchcls/out/netruns
+  path: /workspaces/torchcls/out/netruns
   name_prefix: torchcls
   version: 0.02
 data:

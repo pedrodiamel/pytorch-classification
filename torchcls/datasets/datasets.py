@@ -8,7 +8,6 @@ import numpy as np
 
 import torch
 from pytvision.datasets import utility
-from pytvision.datasets.imageutl import imageProvide
 from pytvision.transforms.aumentation import ObjectImageAndLabelTransform, ObjectImageTransform
 
 warnings.filterwarnings("ignore")

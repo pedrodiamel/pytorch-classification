@@ -5,7 +5,7 @@ import numpy as np
 import torch
 
 from pytvision.datasets import utility
-from pytvision.datasets.imageutl import imageProvide
+from pytvision.datasets.providers import imageProvider
 from pytvision.transforms.aumentation import ObjectImageTransform
 from torchvision import datasets
 
@@ -29,7 +29,7 @@ class IMaterialistDatset(object):
 
 class IMaterialistImageDataset(object):
     def __init__(self, pathname, ext, num_channels=1, transform=None):
-        self.data = imageProvide(pathname, ext)
+        self.data = imageProvider(pathname, ext)
         self.transform = transform
         self.num_channels = num_channels
 
@@ -54,7 +54,7 @@ class IMaterialistImageDataset(object):
         return self.data.getid(i)
 
 
-class IMaterialist(imageProvide):
+class IMaterialist(imageProvider):
     """
     Management dataset <images, labes>
     """

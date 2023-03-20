@@ -10,7 +10,7 @@ import torch
 import torch.nn.functional
 import torch.utils.data as data
 
-from pytvision.datasets import imageutl as imutl, utility
+from pytvision.datasets import providers, utility
 from pytvision.transforms import functional as F
 
 from pytvision.transforms.aumentation import (
@@ -63,7 +63,7 @@ class SyntheticFaceDataset(data.Dataset):
 
         if self.bbackimage:
             pathnameback = os.path.expanduser(pathnameback)
-            self.databack = imutl.imageProvide(pathnameback, ext=ext)
+            self.databack = providers.imageProvider(pathnameback, ext=ext)
 
         self.num_channels = num_channels
         self.generate = generate
