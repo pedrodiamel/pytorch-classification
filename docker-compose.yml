@@ -3,6 +3,7 @@ version: '3.9'
 services:
   torchcls:
     tty: true
+    ipc: host
     container_name: torchcls-dev
     image: torchcls
     build:

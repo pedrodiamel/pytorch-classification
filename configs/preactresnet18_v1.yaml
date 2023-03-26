@@ -7,7 +7,7 @@ data:
   path: /.datasets
   name_dataset: mnist
   epochs: 20
-  batch_size: 12
+  batch_size: 64
   workers: 3
   auto_balance: False
 trainer:
@@ -22,7 +22,7 @@ trainer:
   scheduler: step
   numclass: 10
   numchannels: 3
-  image_size: 48
+  image_size: 32
   finetuning: True
 checkpoint:
   resume: chk000009.pth.tar

@@ -55,7 +55,7 @@ def train(cfg: Config, aug: AugmentationConfig):
     else:
         response = input("Do you want to remove all files in this folder? (y/n): ")
         if response.lower() == "y":
-            remove_files(project_path)
+            remove_files(project_pathname)
 
     # Create and load neural net training class
     # TODO February 18, 2023: I think that we can input the cfgs
