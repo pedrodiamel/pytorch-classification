@@ -1,6 +1,6 @@
 # Pytorch Classification
 
-This project were created for training single classification models.
+This project was created to train a single classification model.
 
 ## Training
 
@@ -40,7 +40,7 @@ jupyter notebook --port 8080 --allow-root --ip 0.0.0.0 --no-browser
 
 ```bash
 docker build -f "Dockerfile" -t torchcls:latest .
-docker run -ti --privileged --ipc=host --name torchcls-dev -p 8888:8888 -p 8889:8889 -p localhost:8097:localhost:8097 -v $HOME/.datasets:/.datasets torchcls:latest /bin/bash
+docker run -ti --privileged --ipc=host --name torchcls-dev -p 8080:8080 -p 6006:6006 -v $DATASETS:/.datasets torchcls:latest /bin/bash
 ```
 
 ### Dockercompose
@@ -71,10 +71,10 @@ docker exec -it torchcls-dev /bin/bash
 | AlexNet           | 86,038            | 35,075          | 70,670      | 64,401     | 46,379       |             |
 | DeXpression       | 79,694            | 31,875          | 51,117      | 44,279     | 37,241       |             |
 
-## Ref
+## References
 
 - <https://github.com/kuangliu/pytorch-cifar>
 - <https://github.com/Cadene/pretrained-models.pytorch>
 - <http://rodrigob.github.io/are_we_there_yet/build/classification_datasets_results.html>
 
-## Acknowledgments
+<!-- ## Acknowledgments -->
